@@ -1,0 +1,237 @@
+[
+  {
+    "fileName":"Filter_01_38",
+    "filterName": "柔白",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_02_14",
+    "filterName": "奶油",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_03_20",
+    "filterName": "氧气",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_04_12",
+    "filterName": "桔梗",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_05_10",
+    "filterName": "洛丽塔",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_06_03",
+    "filterName": "蜜桃",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_07_06",
+    "filterName": "马卡龙",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_08_17",
+    "filterName": "泡沫",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_09_19",
+    "filterName": "樱花",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_10_11",
+    "filterName": "浅暖",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_11_09",
+    "filterName": "物语",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_12_08",
+    "filterName": "北海道",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_13_02",
+    "filterName": "日杂",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_14_15",
+    "filterName": "西雅图",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_15_07",
+    "filterName": "静谧",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_16_13",
+    "filterName": "胶片",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_17_04",
+    "filterName": "暖阳",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_18_18",
+    "filterName": "旧日",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_19_37",
+    "filterName": "红唇",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_20_05",
+    "filterName": "橘蓝调",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_21_01",
+    "filterName": "褪色",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_22_16",
+    "filterName": "黑白",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_23_Po1",
+    "filterName": "温柔",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_24_Po2",
+    "filterName": "恋爱超甜",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_25_Po3",
+    "filterName": "初见",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_26_Po4",
+    "filterName": "暗调",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_27_Po5",
+    "filterName": "奶茶",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_28_Po6",
+    "filterName": "soft",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_29_Po7",
+    "filterName": "夕阳",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_30_Po8",
+    "filterName": "冷氧",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_31_Po9",
+    "filterName": "海边人像",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_32_Po10",
+    "filterName": "高级灰",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_33_L1",
+    "filterName": "海岛",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_34_L2",
+    "filterName": "黑白",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_35_L3",
+    "filterName": "浅夏",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_36_L4",
+    "filterName": "夜色",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_37_L5",
+    "filterName": "红棕",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_38_F1",
+    "filterName": "自然2",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_39_F2",
+    "filterName": "苏打",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_40_F3",
+    "filterName": "加州",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_41_F4",
+    "filterName": "食色",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_42_F5",
+    "filterName": "川味",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_43_S1",
+    "filterName": "美式胶片",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_44_S2",
+    "filterName": "红色复古",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_45_S3",
+    "filterName": "旅途",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_46_S4",
+    "filterName": "暖黄",
+    "defaultIntensity": 0.8
+  },
+  {
+    "fileName":"Filter_47_S5",
+    "filterName": "蓝调胶片",
+    "defaultIntensity": 0.8
+  }
+]

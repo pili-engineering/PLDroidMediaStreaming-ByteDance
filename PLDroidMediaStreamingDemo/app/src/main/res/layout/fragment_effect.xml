@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <com.qiniu.pili.droid.streaming.demo.ui.ProgressBar
+            android:id="@+id/pb_effect"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="5dp"
+            app:circleRadius="8dp"
+            app:textHeight="20dp"
+            app:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_default"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_effect_btn"
+                android:text="重置"
+                android:textColor="#99000000" />
+
+            <Button
+                android:id="@+id/btn_normal"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_effect_btn"
+                android:text="对比"
+                android:textColor="#99000000" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/fragment_identify" />
+</LinearLayout>

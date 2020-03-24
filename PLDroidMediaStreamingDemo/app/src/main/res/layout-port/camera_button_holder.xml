@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/camera_button_holder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    tools:ignore="MissingDefaultResource">
+
+    <!-- these overlap with the SurfaceView; by default, it's underneath the UI layer -->
+    <FrameLayout
+        android:id="@+id/fl_avstreaming_panel_container"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true" />
+
+    <RelativeLayout
+        android:id="@+id/rl_avstreaming_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/toggleRecording_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shutter_button"
+            android:clickable="true"
+            android:contentDescription="@string/cd_shutter_button"
+            android:focusable="true"
+            android:scaleType="center" />
+
+        <ImageView
+            android:id="@+id/iv_avstreaming_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:layout_toLeftOf="@id/toggleRecording_button"
+            android:src="@mipmap/icon_record_beauty" />
+
+        <ImageView
+            android:id="@+id/iv_avstreaming_sticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/toggleRecording_button"
+            android:src="@mipmap/icon_record_sticker" />
+
+    </RelativeLayout>
+</RelativeLayout>
