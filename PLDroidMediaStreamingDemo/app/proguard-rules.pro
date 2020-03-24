@@ -1,0 +1,2 @@
+-keep class com.qiniu.pili.droid.streaming.**{*;}
+-keep class com.qiniu.bytedanceplugin.**{*;}
