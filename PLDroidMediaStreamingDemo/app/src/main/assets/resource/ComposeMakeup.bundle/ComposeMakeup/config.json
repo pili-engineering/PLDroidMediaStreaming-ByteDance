@@ -163,5 +163,266 @@
       "key": "Internal_Deform_MovMouth",
       "defaultIntensity": 0.5
     }
-  ]
+  ],
+  "makeUp": {
+    "blush": {
+      "effectClassName": "腮红",
+      "iconName": "blush.png",
+      "key": "Internal_Makeup_Blusher",
+      "effect": [
+        {
+          "fileName": "weixun",
+          "effectName": "微醺",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "richang",
+          "effectName": "日常",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "mitao",
+          "effectName": "蜜桃",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "tiancheng",
+          "effectName": "甜橙",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "qiaopi",
+          "effectName": "俏皮",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "xinji",
+          "effectName": "心机",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "shaishang",
+          "effectName": "晒伤",
+          "defaultIntensity": 0.5
+        }
+      ]
+    },
+    "eyebrow": {
+      "effectClassName": "眉毛",
+      "iconName": "eyebrow.png",
+      "key": "Internal_Makeup_Brow",
+      "effect": [
+        {
+          "fileName": "BR01",
+          "effectName": "BRO1",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "BK01",
+          "effectName": "BKO1",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "BK02",
+          "effectName": "BKO2",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "BK03",
+          "effectName": "BKO3",
+          "defaultIntensity": 0.5
+        }
+      ]
+    },
+    "eyeshadow": {
+      "effectClassName": "眼影",
+      "iconName": "eyeshadow.png",
+      "key": "Internal_Makeup_Eye",
+      "effect": [
+        {
+          "fileName": "dadizong",
+          "effectName": "大地棕",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "wanxiahong",
+          "effectName": "晚霞红",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "shaonvfen",
+          "effectName": "少女粉",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "qizhifen",
+          "effectName": "气质粉",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "meizihong",
+          "effectName": "梅子红",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "jiaotangzong",
+          "effectName": "焦糖棕",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "yuanqiju",
+          "effectName": "元气橘",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "naichase",
+          "effectName": "奶茶色",
+          "defaultIntensity": 0.5
+        }
+      ]
+    },
+    "facial": {
+      "effectClassName": "修容",
+      "iconName": "facial.png",
+      "key": "Internal_Makeup_Facial",
+      "effect": [
+        {
+          "fileName": "xiurong01",
+          "effectName": "修容01",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "xiurong02",
+          "effectName": "修容02",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "xiurong03",
+          "effectName": "修容03",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "xiurong04",
+          "effectName": "修容04",
+          "defaultIntensity": 0.5
+        }
+      ]
+    },
+    "hair": {
+      "effectClassName": "染发",
+      "iconName": "hair.png",
+      "key": "",
+      "effect": [
+        {
+          "fileName": "anlan",
+          "effectName": "暗蓝",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "molv",
+          "effectName": "墨绿",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "shenzong",
+          "effectName": "深棕",
+          "defaultIntensity": 0.5
+        }
+      ]
+    },
+    "lip": {
+      "effectClassName": "口红",
+      "iconName": "lip.png",
+      "key": "Internal_Makeup_Lips",
+      "effect": [
+        {
+          "fileName": "fuguhong",
+          "effectName": "复古红",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "shaonvfen",
+          "effectName": "少女粉",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "yuanqiju",
+          "effectName": "元气橘",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "xiyouse",
+          "effectName": "西柚色",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "xiguahong",
+          "effectName": "西瓜红",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "sironghong",
+          "effectName": "丝绒红",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "zangjuse",
+          "effectName": "脏橘色",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "meizise",
+          "effectName": "梅子色",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "shanhuse",
+          "effectName": "珊瑚色",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "doushafen",
+          "effectName": "豆沙粉",
+          "defaultIntensity": 0.5
+        }
+      ]
+    },
+    "pupil": {
+      "effectClassName": "美瞳",
+      "iconName": "pupil.png",
+      "key": "Internal_Makeup_Pupil",
+      "effect": [
+        {
+          "fileName": "hunxuezong",
+          "effectName": "混血棕",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "kekezong",
+          "effectName": "可可棕",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "mitaofen",
+          "effectName": "蜜桃粉",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "shuiguanghei",
+          "effectName": "水光黑",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "xingkonglan",
+          "effectName": "星空蓝",
+          "defaultIntensity": 0.5
+        },
+        {
+          "fileName": "chujianhui",
+          "effectName": "初见灰",
+          "defaultIntensity": 0.5
+        }
+      ]
+    }
+  }
 }

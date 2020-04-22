@@ -41,7 +41,7 @@ public class EffectPresenter extends EffectContract.Presenter {
     private void removeNodesWithMakAndType(SparseArray<ComposerNode> map, int mask, int type) {
         int i = 0;
         ComposerNode node;
-        while ((map.valueAt(i) instanceof ComposerNode) && (node = map.valueAt(i)) != null) {
+        while (i < map.size() && (node = map.valueAt(i)) != null) {
             if ((node.getId() & mask) == type) {
                 map.removeAt(i);
             } else {
@@ -61,7 +61,11 @@ public class EffectPresenter extends EffectContract.Presenter {
             } else {
                 set.add(node.getNode());
             }
-            list.add(node.getNode());
+            if (isAhead(node)) {
+                list.add(0, node.getNode());
+            } else {
+                list.add(node.getNode());
+            }
         }
         return list.toArray(new String[0]);
     }
@@ -88,6 +92,11 @@ public class EffectPresenter extends EffectContract.Presenter {
     @Override
     public boolean hasIntensity(int type) {
         int parent = type & MASK;
-        return parent == TYPE_BEAUTY_FACE || parent == TYPE_BEAUTY_RESHAPE;
+        return parent == TYPE_BEAUTY_FACE || parent == TYPE_BEAUTY_RESHAPE
+                || parent == TYPE_MAKEUP || parent == TYPE_MAKEUP_OPTION;
+    }
+
+    private boolean isAhead(ComposerNode node) {
+        return (node.getId() & MASK) == TYPE_MAKEUP_OPTION;
     }
 }

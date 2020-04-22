@@ -9,12 +9,13 @@ import java.util.List;
 /**
  * 将一个 int 分为两段，前 16 位存储一级菜单，分别是 美颜、美型、滤镜选项
  * 第 17～24 位存储二级菜单，如美颜的 大眼、瘦脸等，美型选项的 瘦脸、大眼等
- * 最后 8 位存储三级菜单，目前只有美妆选项使用到，如存储美瞳的几种种类，这个还没有集成呢
+ * 最后 8 位存储三级菜单，目前只有美妆选项使用到，如存储美瞳效果中的各种颜色
  */
 public interface ItemGetContract {
     int OFFSET = 16;
     int MASK = ~0xFFFF;
     int SUB_OFFSET = 8;
+    int SUB_MASK = ~0xFF;
 
     // 一级菜单
 
@@ -23,8 +24,12 @@ public interface ItemGetContract {
     int TYPE_BEAUTY_FACE = 1 << OFFSET;
     // 美型
     int TYPE_BEAUTY_RESHAPE = 2 << OFFSET;
+    // 美妆
+    int TYPE_MAKEUP = 4 << OFFSET;
     // 滤镜
     int TYPE_FILTER = 5 << OFFSET;
+    // 美妆类型
+    int TYPE_MAKEUP_OPTION = 6 << OFFSET;
 
     // 二级菜单
 
@@ -32,10 +37,10 @@ public interface ItemGetContract {
     int TYPE_BEAUTY_FACE_SMOOTH = TYPE_BEAUTY_FACE + (1 << SUB_OFFSET);
     int TYPE_BEAUTY_FACE_WHITEN = TYPE_BEAUTY_FACE + (2 << SUB_OFFSET);
     int TYPE_BEAUTY_FACE_SHARPEN = TYPE_BEAUTY_FACE + (3 << SUB_OFFSET);
-    int TYPE_BEAUTY_FACE_BRIGHTEN_EYE    = TYPE_BEAUTY_FACE     + (4 << SUB_OFFSET);
-    int TYPE_BEAUTY_FACE_REMOVE_POUCH    = TYPE_BEAUTY_FACE     + (5 << SUB_OFFSET);
-    int TYPE_BEAUTY_FACE_SMILE_FOLDS    = TYPE_BEAUTY_FACE   + (6 << SUB_OFFSET);
-    int TYPE_BEAUTY_FACE_WHITEN_TEETH    = TYPE_BEAUTY_FACE     + (7 << SUB_OFFSET);
+    int TYPE_BEAUTY_FACE_BRIGHTEN_EYE = TYPE_BEAUTY_FACE + (4 << SUB_OFFSET);
+    int TYPE_BEAUTY_FACE_REMOVE_POUCH = TYPE_BEAUTY_FACE + (5 << SUB_OFFSET);
+    int TYPE_BEAUTY_FACE_SMILE_FOLDS = TYPE_BEAUTY_FACE + (6 << SUB_OFFSET);
+    int TYPE_BEAUTY_FACE_WHITEN_TEETH = TYPE_BEAUTY_FACE + (7 << SUB_OFFSET);
 
     // 美型
     int TYPE_BEAUTY_RESHAPE_FACE_OVERALL = TYPE_BEAUTY_RESHAPE + (1 << SUB_OFFSET);
@@ -56,6 +61,16 @@ public interface ItemGetContract {
     int TYPE_BEAUTY_RESHAPE_EYE_SPACING = TYPE_BEAUTY_RESHAPE + (16 << SUB_OFFSET);
     int TYPE_BEAUTY_RESHAPE_EYE_MOVE = TYPE_BEAUTY_RESHAPE + (17 << SUB_OFFSET);
     int TYPE_BEAUTY_RESHAPE_MOUTH_MOVE = TYPE_BEAUTY_RESHAPE + (18 << SUB_OFFSET);
+
+    // Makeup 美妆
+    int TYPE_MAKEUP_LIP = TYPE_MAKEUP_OPTION + (1 << SUB_OFFSET);
+    int TYPE_MAKEUP_BLUSHER = TYPE_MAKEUP_OPTION + (2 << SUB_OFFSET);
+    int TYPE_MAKEUP_EYELASH = TYPE_MAKEUP_OPTION + (3 << SUB_OFFSET);
+    int TYPE_MAKEUP_PUPIL = TYPE_MAKEUP_OPTION + (4 << SUB_OFFSET);
+    int TYPE_MAKEUP_HAIR = TYPE_MAKEUP_OPTION + (5 << SUB_OFFSET);
+    int TYPE_MAKEUP_EYESHADOW = TYPE_MAKEUP_OPTION + (6 << SUB_OFFSET);
+    int TYPE_MAKEUP_EYEBROW = TYPE_MAKEUP_OPTION + (7 << SUB_OFFSET);
+    int TYPE_MAKEUP_FACIAL = TYPE_MAKEUP_OPTION + (8 << SUB_OFFSET);
 
     interface View extends IView {
     }
