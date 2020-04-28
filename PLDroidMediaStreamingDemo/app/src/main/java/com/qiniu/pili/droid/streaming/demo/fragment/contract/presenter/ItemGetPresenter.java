@@ -18,7 +18,7 @@ public class ItemGetPresenter extends ItemGetContract.Presenter {
     @Override
     public List<ButtonItem> getItems(int type) {
         List<ButtonItem> items = new ArrayList<>();
-        items.add(new ButtonItem(null, "清除", 0d,new ComposerNode(TYPE_CLOSE)));
+        items.add(new ButtonItem(null, "清除", 0d, new ComposerNode(TYPE_CLOSE)));
         List<MakeUpModel> makeUpModels;
         switch (type & MASK) {
             case TYPE_BEAUTY_FACE:
@@ -26,6 +26,12 @@ public class ItemGetPresenter extends ItemGetContract.Presenter {
                 break;
             case TYPE_BEAUTY_RESHAPE:
                 makeUpModels = ByteDancePlugin.getShapeList();
+                break;
+            case TYPE_MAKEUP:
+                makeUpModels = ByteDancePlugin.getMakeUpList();
+                break;
+            case TYPE_MAKEUP_OPTION:
+                makeUpModels = getMakeupOptionItems(type);
                 break;
             default:
                 makeUpModels = new ArrayList<>();
@@ -37,6 +43,31 @@ public class ItemGetPresenter extends ItemGetContract.Presenter {
         return items;
     }
 
+    private List<MakeUpModel> getMakeupOptionItems(int type) {
+        switch (type & SUB_MASK) {
+            case TYPE_MAKEUP_LIP:
+                return ByteDancePlugin.getMakeUpOptionItems().get("lip");
+            case TYPE_MAKEUP_BLUSHER:
+                return ByteDancePlugin.getMakeUpOptionItems().get("blush");
+            case TYPE_MAKEUP_EYELASH:
+                return ByteDancePlugin.getMakeUpOptionItems().get("eyelash");
+            case TYPE_MAKEUP_PUPIL:
+                return ByteDancePlugin.getMakeUpOptionItems().get("pupil");
+            case TYPE_MAKEUP_HAIR:
+                return ByteDancePlugin.getMakeUpOptionItems().get("hair");
+            case TYPE_MAKEUP_EYESHADOW:
+                return ByteDancePlugin.getMakeUpOptionItems().get("eyeshadow");
+            case TYPE_MAKEUP_EYEBROW:
+                return ByteDancePlugin.getMakeUpOptionItems().get("eyebrow");
+            case TYPE_MAKEUP_FACIAL:
+                return ByteDancePlugin.getMakeUpOptionItems().get("facial");
+            default:
+                break;
+        }
+        return new ArrayList<>();
+    }
+
+    //返回的 int 值是用于将特效分类，便于批量关闭某一类特效所做，可用其它方式代替
     private int translateKey2id(String key) {
         switch (key) {
             case "smooth":
@@ -85,6 +116,20 @@ public class ItemGetPresenter extends ItemGetContract.Presenter {
                 return TYPE_BEAUTY_RESHAPE_EYE_MOVE;
             case "Internal_Deform_MovMouth":
                 return TYPE_BEAUTY_RESHAPE_MOUTH_MOVE;
+            case "Internal_Makeup_Lips":
+                return TYPE_MAKEUP_LIP;
+            case "Internal_Makeup_Blusher":
+                return TYPE_MAKEUP_BLUSHER;
+            case "Internal_Makeup_Pupil":
+                return TYPE_MAKEUP_PUPIL;
+            case "":
+                return TYPE_MAKEUP_HAIR;
+            case "Internal_Makeup_Eye":
+                return TYPE_MAKEUP_EYESHADOW;
+            case "Internal_Makeup_Brow":
+                return TYPE_MAKEUP_EYEBROW;
+            case "Internal_Makeup_Facial":
+                return TYPE_MAKEUP_FACIAL;
             default:
                 return -1;
         }

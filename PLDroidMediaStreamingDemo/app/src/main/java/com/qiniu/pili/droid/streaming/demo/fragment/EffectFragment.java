@@ -41,7 +41,8 @@ public class EffectFragment extends
         EffectContract.View, ItemGetContract.View, View.OnClickListener {
     public static final int POSITION_BEAUTY = 0;
     public static final int POSITION_RESHAPE = 1;
-    public static final int POSITION_FILTER = 2;
+    public static final int POSITION_MAKEUP = 2;
+    public static final int POSITION_FILTER = 3;
 
     public static final String TAG_MAKEUP_OPTION_FRAGMENT = "makeup_option";
     public static final int ANIMATION_DURATION = 400;
@@ -159,7 +160,7 @@ public class EffectFragment extends
         }));
         titleList.add(getString(R.string.tab_face_beautification));
 
-        // 美形
+        // 美型
         mFragmentList.add(new BeautyFaceFragment().setType(TYPE_BEAUTY_RESHAPE)
                 .setCallback(new BeautyFaceFragment.IBeautyCallBack() {
             @Override
@@ -185,6 +186,32 @@ public class EffectFragment extends
             }
         }));
         titleList.add(getString(R.string.tab_face_beauty_reshape));
+
+        // 美妆
+        mFragmentList.add(new BeautyFaceFragment().setType(TYPE_MAKEUP)
+                .setCallback(new BeautyFaceFragment.IBeautyCallBack() {
+                    @Override
+                    public void onBeautySelect (ButtonItem item) {
+                        mSelectType = item.getNode().getId();
+                        mTypeMap.put(POSITION_MAKEUP, mSelectType);
+                        if (mSelectType == TYPE_CLOSE) {
+                            closeMakeup();
+                            return;
+                        }
+
+                        // 染发栏不显示滑杆
+                        if (item.getNode().getId() == TYPE_MAKEUP_HAIR) {
+                            pb.setVisibility(View.INVISIBLE);
+                        } else {
+                            pb.setVisibility(View.VISIBLE);
+                            pb.setProgress(mProgressMap.get(mSelectType, 0F));
+                        }
+
+                        tvTitle.setText(item.getTitle());
+                        showOrHideMakeupOptionFragment(true);
+                    }
+                }));
+        titleList.add(getString(R.string.tab_face_makeup));
 
         // 滤镜
         mFragmentList.add(new FilterFragment()
@@ -262,7 +289,8 @@ public class EffectFragment extends
             getCallback().onFilterValueChanged(progress);
         } else {
             if ((mSelectType & MASK) == TYPE_BEAUTY_FACE ||
-                    (mSelectType & MASK) == TYPE_BEAUTY_RESHAPE) {
+                    (mSelectType & MASK) == TYPE_BEAUTY_RESHAPE ||
+                    (mSelectType & MASK) == TYPE_MAKEUP_OPTION) {
                 mProgressMap.put(mSelectType, progress);
             }
 
@@ -346,10 +374,12 @@ public class EffectFragment extends
         int selectedReshape = mTypeMap.get(POSITION_RESHAPE, TYPE_CLOSE);
 
         // close beauty body and makeup when set default
-        ((FilterFragment)mFragmentList.get(POSITION_FILTER)).onClose();
+        ((BeautyFaceFragment) mFragmentList.get(POSITION_MAKEUP)).onClose();
+        ((FilterFragment) mFragmentList.get(POSITION_FILTER)).onClose();
         getCallback().onFilterSelected(null);
         mMakeupOptionSelectMap.clear();
         showOrHideMakeupOptionFragment(false);
+        mPresenter.removeProgressInMap(mProgressMap, TYPE_MAKEUP_OPTION);
 
         mComposerNodeMap.clear();
         mPresenter.generateDefaultBeautyNodes(mComposerNodeMap);
@@ -416,6 +446,19 @@ public class EffectFragment extends
         pb.setProgress(0);
 
         OnCloseListener listener = (OnCloseListener) mFragmentList.get(POSITION_RESHAPE);
+        listener.onClose();
+    }
+
+    private void closeMakeup() {
+        mPresenter.removeNodesOfType(mComposerNodeMap, TYPE_MAKEUP_OPTION);
+        mPresenter.removeProgressInMap(mProgressMap, TYPE_MAKEUP);
+        mPresenter.removeProgressInMap(mProgressMap, TYPE_MAKEUP_OPTION);
+        updateComposerNodes();
+
+        pb.setProgress(0);
+        mMakeupOptionSelectMap.clear();
+
+        OnCloseListener listener = (OnCloseListener) mFragmentList.get(POSITION_MAKEUP);
         listener.onClose();
     }
 
