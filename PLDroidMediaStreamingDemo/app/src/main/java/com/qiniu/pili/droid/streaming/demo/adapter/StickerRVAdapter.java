@@ -10,16 +10,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.qiniu.bytedanceplugin.model.StickerItem;
+import com.qiniu.bytedanceplugin.model.StickerModel;
 import com.qiniu.pili.droid.streaming.demo.R;
 
 import java.util.List;
 
 public class StickerRVAdapter extends SelectRVAdapter<StickerRVAdapter.ViewHolder> {
-    private List<StickerItem> mStickerList;
+    private List<StickerModel> mStickerList;
     private OnItemClickListener mListener;
 
-    public StickerRVAdapter(List<StickerItem> stickers, OnItemClickListener listener) {
+    public StickerRVAdapter(List<StickerModel> stickers, OnItemClickListener listener) {
         mStickerList = stickers;
         mListener = listener;
     }
@@ -32,7 +32,7 @@ public class StickerRVAdapter extends SelectRVAdapter<StickerRVAdapter.ViewHolde
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final StickerItem item = mStickerList.get(position);
+        final StickerModel item = mStickerList.get(position);
 
         if (mSelect == position) {
             holder.ll.setBackgroundResource(R.drawable.bg_item_select_selector);
@@ -40,11 +40,11 @@ public class StickerRVAdapter extends SelectRVAdapter<StickerRVAdapter.ViewHolde
             holder.ll.setBackgroundResource(R.drawable.bg_item_unselect_selector);
         }
 
-        if (item.getIconPath()!=null){
+        if (item.getIconPath() != null) {
             Bitmap bitmap = BitmapFactory.decodeFile(item.getIconPath());
             holder.iv.setImageBitmap(bitmap);
-            holder.tv.setText(item.getStickerName());
-        }else {
+            holder.tv.setText(item.getDisplayName());
+        } else {
             holder.iv.setImageResource(R.drawable.clear);
             holder.tv.setText("清除");
         }
@@ -66,7 +66,7 @@ public class StickerRVAdapter extends SelectRVAdapter<StickerRVAdapter.ViewHolde
     }
 
     public interface OnItemClickListener {
-        void onItemClick(StickerItem item);
+        void onItemClick(StickerModel item);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

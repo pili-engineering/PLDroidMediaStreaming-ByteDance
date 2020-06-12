@@ -45,5 +45,7 @@
 
     <string name="tab_face_beautification">美颜</string>
     <string name="tab_filter">滤镜</string>
-    <string name="tab_face_beauty_reshape">美型</string>
+    <string name="tab_face_beauty_reshape">微整形</string>
+    <string name="tab_face_makeup">美妆</string>
+    <string name="tab_face_beauty_body">美体</string>
 </resources>

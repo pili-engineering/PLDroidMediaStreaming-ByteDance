@@ -1,0 +1,122 @@
+[
+  {
+    "tip": "招财猫",
+    "displayName": "招财猫",
+    "iconName": "zhaocaimao.png",
+    "filePath": "stickers/zhaocaimao"
+  },
+  {
+    "tip": "比心试试",
+    "displayName": "表白七夕",
+    "iconName": "biaobaiqixi.png",
+    "filePath": "stickers/biaobaiqixi"
+  },
+  {
+    "tip": "绅士",
+    "displayName": "绅士",
+    "iconName": "shenshi.png",
+    "filePath": "stickers/shenshi"
+  },
+  {
+    "tip": "眨眼试试",
+    "displayName": "恐龙测试",
+    "iconName": "konglongceshi.png",
+    "filePath": "stickers/konglongceshi"
+  },
+  {
+    "tip": "南瓜滚滚",
+    "displayName": "南瓜滚滚",
+    "iconName": "nanguagungun.png",
+    "filePath": "stickers/nanguagungun"
+  },
+  {
+    "tip": "极简兔耳",
+    "displayName": "极简兔耳",
+    "iconName": "jijiantuer.png",
+    "filePath": "stickers/jijiantuer"
+  },
+  {
+    "tip": "挡脸换面具",
+    "displayName": "假面",
+    "iconName": "jiamian.png",
+    "filePath": "stickers/jiamian"
+  },
+  {
+    "tip": "公主面具",
+    "displayName": "公主面具",
+    "iconName": "gongzhumianju.png",
+    "filePath": "stickers/gongzhumianju"
+  },
+  {
+    "tip": "点头",
+    "displayName": "恐龙时光机",
+    "iconName": "konglongshiguangji.png",
+    "filePath": "stickers/konglongshiguangji"
+  },
+  {
+    "tip": "先抬头后张嘴",
+    "displayName": "唤龙术",
+    "iconName": "huanlongshu.png",
+    "filePath": "stickers/huanlongshu"
+  },
+  {
+    "tip": "比ok手势",
+    "displayName": "好奇龙宝",
+    "iconName": "haoqilongbao.png",
+    "filePath": "stickers/haoqilongbao"
+  },
+  {
+    "tip": "摇头变身不同恐龙",
+    "displayName": "侏罗纪冒险",
+    "iconName": "zhuluojimaoxian.png",
+    "filePath": "stickers/zhuluojimaoxian"
+  },
+  {
+    "tip": "我超甜",
+    "displayName": "我超甜",
+    "iconName": "wochaotian.png",
+    "filePath": "stickers/wochaotian"
+  },
+  {
+    "tip": "哈气试试",
+    "displayName": "哈气",
+    "iconName": "haqi.png",
+    "filePath": "stickers/haqi"
+  },
+  {
+    "tip": "卡通男",
+    "displayName": "卡通男",
+    "iconName": "katongnan.png",
+    "filePath": "stickers/katongnan"
+  },
+  {
+    "tip": "眨眼嘟嘴",
+    "displayName": "蔚蓝冬日妆",
+    "iconName": "weilandongrizhuang.png",
+    "filePath": "stickers/weilandongrizhuang"
+  },
+  {
+    "tip": "",
+    "displayName": "暖暖斗篷",
+    "iconName": "nuannuandoupeng.png",
+    "filePath": "stickers/duanduandoubeng"
+  },
+  {
+    "tip": "黑猫眼镜",
+    "displayName": "黑猫眼镜",
+    "iconName": "heimaoyanjing.png",
+    "filePath": "stickers/heimaoyanjing"
+  },
+  {
+    "tip": "蕾丝兔耳",
+    "displayName": "蕾丝兔耳",
+    "iconName": "leisituer.png",
+    "filePath": "stickers/leisituer"
+  },
+  {
+    "tip": "卡通女",
+    "displayName": "卡通女",
+    "iconName": "katongnv.png",
+    "filePath": "stickers/katongnv"
+  }
+]
