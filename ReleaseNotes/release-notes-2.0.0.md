@@ -15,5 +15,6 @@ PLDroidMediaStreaming-ByteDance 是七牛推出的一款适用于 Android 平台
 - 优化了 YUV 处理速度
 
 ### 注意事项
-* **pldroid-bytedance-effect-2.0.0.jar 较之前版本接口变动较大，升级请仔细[阅读文档](../docs/PLDroidMediaStreaming-ByteDance.md)与 demo**
+* **pldroid-bytedance-effect-2.0.0.jar 较之前版本接口变动较大，升级请仔细阅读[文档](../docs/PLDroidMediaStreaming-ByteDance.md)与 demo。**
+* **此版本仅支持字节跳动资源版本 v3.9.0，如版本不匹配请重新申请资源。**
 * 建议推流 SDK 选用 v2.4.1.1 及以上的版本

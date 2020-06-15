@@ -47,3 +47,4 @@ PLDroidMediaStreaming-ByteDance 是七牛推出的一款适用于 Android 平台
 
 ### 注意事项
 * 建议推流 SDK 选用 v2.4.1.1 及以上的版本
+* **此版本仅支持字节跳动资源版本 v3.4.2。**
