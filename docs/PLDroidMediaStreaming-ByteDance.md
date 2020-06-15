@@ -90,7 +90,7 @@ dependencies {
 
 # 4. 快速开始
 ## 4.1 资源的配置处理
-为了方便的获取特效的信息列表，首先应该对字节跳动的资源进行配置处理，分别为高级美颜、微整形、美妆、美体素材（ComposeMakeup.bundle）、高级滤镜素材（FilterResource.bundle）和动态贴纸素材（StickerResource.bundle）配置 config.json 文件与 icons 文件夹。此项配置是为了后面可以通过调用类似于 `getStickerList()` 的方法快速获取特效信息，投放入 Adapter 来生成视图，也是为了可以通过云端下发特效文件和配置文件的方式在不更新 APP 的情况下更新特效资源。
+为了方便的获取特效的信息列表，首先应该对字节跳动的资源进行配置处理，分别为高级美颜/微整形/美妆/美体素材（ComposeMakeup.bundle）、高级滤镜素材（FilterResource.bundle）和动态贴纸素材（StickerResource.bundle）配置 config.json 文件与 icons 文件夹。此项配置是为了后面可以通过调用类似于 `getStickerList()` 的方法快速获取特效信息，投放入 Adapter 来生成视图，也是为了可以通过云端下发特效文件和配置文件的方式在不更新 APP 的情况下更新特效资源。  
 由于资源配置的过程较为繁琐，我们为您提供了一个处理脚本，您只需将字节提供的 resource 和 icons 文件夹拷入脚本同级目录，在脚本所在目录下运行脚本即可，具体的使用方式请参见本目录下的 script 文件夹，运行脚本成功后您可更改对应素材文件下的 config.json 文件来修改特效图标、特效名称、特效初始强度甚至特效所在类别等信息。
 
 ## 4.2 把资源从 assets 拷贝到手机本地目录
@@ -138,7 +138,7 @@ ByteDancePlugin.getMakeupList();
 │       └── ***
 │   └── ***
 ```
-`getMakeupList()` 返回的是一个 List<MakeupModel> ,可调用 `MakeupMode.getEffects()` 来取得该类别的具体特效列表。
+`getMakeupList()` 返回的是一个 `List<MakeupModel>` ,可调用其子项 `MakeupModel.getEffects()` 方法来取得其子项类别的具体特效列表。
 
 ## 4.4 特效处理
 特效处理是使用的核心步骤，建议参考 demo 中的 VideoRecordActivity 类。整体的步骤分为三步：  
