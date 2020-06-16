@@ -5,6 +5,7 @@ PLDroidMediaStreaming-ByteDance 是七牛推出的一款适用于 Android 平台
 
 ### 版本
 - 发布 pldroid-bytedance-effect-2.0.0.jar
+- 发布字节资源 v3.9 处理脚本
 - 发布 libc++_shared.so
 - 升级 libeffect.so
 - 升级 libeffect_proxy.so

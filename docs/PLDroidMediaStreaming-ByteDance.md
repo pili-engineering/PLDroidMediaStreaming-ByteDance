@@ -91,7 +91,8 @@ dependencies {
 # 4. 快速开始
 ## 4.1 资源的配置处理
 为了方便的获取特效的信息列表，首先应该对字节跳动的资源进行配置处理，分别为高级美颜/微整形/美妆/美体素材（ComposeMakeup.bundle）、高级滤镜素材（FilterResource.bundle）和动态贴纸素材（StickerResource.bundle）配置 config.json 文件与 icons 文件夹。此项配置是为了后面可以通过调用类似于 `getStickerList()` 的方法快速获取特效信息，投放入 Adapter 来生成视图，也是为了可以通过云端下发特效文件和配置文件的方式在不更新 APP 的情况下更新特效资源。  
-由于资源配置的过程较为繁琐，我们为您提供了一个处理脚本，您只需将字节提供的 resource 和 icons 文件夹拷入脚本同级目录，在脚本所在目录下运行脚本即可，具体的使用方式请参见本目录下的 script 文件夹，运行脚本成功后您可更改对应素材文件下的 config.json 文件来修改特效图标、特效名称、特效初始强度甚至特效所在类别等信息。
+
+由于资源配置的过程较为繁琐，我们为您提供了一个处理脚本，您只需将字节提供的 resource 和 icons 文件夹拷入脚本同级目录，在脚本所在目录下运行脚本即可，具体的使用方式请参见上级目录的 ResourceTools 文件夹，运行脚本成功后您可更改对应素材文件下的 config.json 文件来修改特效图标、特效名称、特效初始强度甚至特效所在类别等信息。
 
 ## 4.2 把资源从 assets 拷贝到手机本地目录
 在 Android 开发中携带额外的资源文件通常是会将其放入到 assets 文件夹中，当 apk 安装后会放到 /data/app/*.apk 目录下，以 apk 形式存在，assets 被绑定在 apk 中，并不会解压到 /data/data/YourApp 目录下去，所以我们无法直接获取到 assets 中文件的绝对路径。在进行 sdk 的初始化时和设置特效时都需要传入特效资源的地址，所以在此之前需要将资源从 assets 拷贝到本地目录中，可参考 demo 中的 LoadResourcesTask 类。
@@ -281,12 +282,6 @@ public boolean init(String resourcePath)
  * 释放特效资源，需要在渲染线程调用
  */
 public void destroy()
-
-/**
- * 释放特效资源，需要在渲染线程中调用
- * 仅适用于七牛短视频中编辑场景下保存时调用
- */
-public void destroyForSaving()
 ```
 需要注意的是 ByteDancePlugin 的初始化、销毁与特效处理都应该工作在预览渲染线程。
 
@@ -489,6 +484,7 @@ SDK 会根据该文件夹下的文件进行鉴权，请确保该文件夹下的�
 # 7. 历史记录
 * 2.0.0
   - 发布 pldroid-bytedance-effect-2.0.0.jar
+  - 发布字节资源 v3.9 处理脚本
   - 发布 libc++_shared.so
   - 升级 libeffect.so
   - 升级 libeffect_proxy.so
