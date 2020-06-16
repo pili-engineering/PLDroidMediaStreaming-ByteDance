@@ -10,7 +10,7 @@
 运行脚本会自动为您安装 [pypinyin](https://github.com/mozillazg/python-pinyin) 库，如若不成功请使用命令 `pip install pypinyin` 自行安装。
 
 ## 2. 使用
-将提供的 resource 文件夹和 icons 文件夹(如果您购买了动态贴纸才有) 放到与该文件同级目录下
+将提供的 resource 文件夹和 icons 文件夹(可通过购买动态贴纸获取，如果没有可忽略) 放到与该文件同级目录下
 
 ![示意图](images/doc/file_example.png "示意图")
 
