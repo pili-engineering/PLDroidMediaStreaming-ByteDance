@@ -58,4 +58,11 @@ Python 2.7.9+ 或 Python 3.4+ 以上版本都自带 pip 工具,如果您没有�
 建议使用电脑上默认 Python 版本来运行脚本，原因为运行脚本会为您安装 pypinyin 库到默认 Python 版本中，如果使用非默认 Python 版本运行可能会出现找不到 pypinyin 库的情况，可自行指定 Python 版本安装 pypinyin 库解决此问题。
 
 ### 4.5 异常情况
-如果出现找不到图标或者某些资源识别不了的情况请按照提示自行修改，可参见我们的 [resource](../PLDroidShortVideoDemo/app/src/main/assets/resource) 文件夹，如果脚本处理失败也可使用其进行测试验证，判断是否为脚本问题。
+如果出现找不到图标或者某些资源识别不了的情况，请按照脚本运行给出的提示自行修改，处理结果可参见 demo 中的 [resource](../PLDroidMediaStreamingDemo/app/src/main/assets/resource) 文件夹。  
+如果您使用我们提供的脚本运行失败，则可以进行如下验证：  
+1. 将 PLDroidMediaStreamingDemo 中 [resource](../PLDroidMediaStreamingDemo/app/src/main/assets/resource) 文件夹拷贝到 ResourceTools 目录，拷贝后目录结构如下：  
+![目录示意图](images/doc/resource_copy_file.png)  
+2. 运行脚本  
+如果运行成功，说明不是脚本问题，是资源问题，请重新申请资源。  
+如果运行不起来，可能是 python 环境问题，可参考前几个小节来修改。  
+如果运行中出错，可以联系七牛技术支持提供帮助。
