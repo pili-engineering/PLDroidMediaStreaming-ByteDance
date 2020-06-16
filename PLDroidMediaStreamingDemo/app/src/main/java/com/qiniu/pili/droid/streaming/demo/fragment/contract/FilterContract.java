@@ -1,11 +1,10 @@
 package com.qiniu.pili.droid.streaming.demo.fragment.contract;
 
-import com.qiniu.bytedanceplugin.model.FilterItem;
+import com.qiniu.bytedanceplugin.model.FilterModel;
 import com.qiniu.pili.droid.streaming.demo.base.BasePresenter;
 import com.qiniu.pili.droid.streaming.demo.base.IView;
 
 import java.util.List;
-
 
 public interface FilterContract {
     interface View extends IView {
@@ -13,6 +12,6 @@ public interface FilterContract {
     }
 
     abstract class Presenter extends BasePresenter<View> {
-        public abstract List<FilterItem> getItems();
+        public abstract List<FilterModel> getItems();
     }
 }

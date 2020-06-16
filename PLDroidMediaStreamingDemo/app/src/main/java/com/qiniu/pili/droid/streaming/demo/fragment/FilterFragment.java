@@ -8,22 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.qiniu.bytedanceplugin.model.FilterItem;
+import com.qiniu.bytedanceplugin.model.FilterModel;
 import com.qiniu.pili.droid.streaming.demo.R;
 import com.qiniu.pili.droid.streaming.demo.adapter.FilterRVAdapter;
 import com.qiniu.pili.droid.streaming.demo.fragment.contract.FilterContract;
 import com.qiniu.pili.droid.streaming.demo.fragment.contract.OnCloseListener;
 import com.qiniu.pili.droid.streaming.demo.fragment.contract.presenter.FilterPresenter;
 
-/**
- * 滤镜
- */
 public class FilterFragment extends BaseFeatureFragment<FilterContract.Presenter, FilterFragment.IFilterCallback>
         implements FilterRVAdapter.OnItemClickListener, OnCloseListener, FilterContract.View {
     private RecyclerView rv;
 
     public interface IFilterCallback {
-        void onFilterSelected(FilterItem filterItem);
+        void onFilterSelected(FilterModel filterItem);
     }
 
     @Nullable
@@ -52,11 +49,11 @@ public class FilterFragment extends BaseFeatureFragment<FilterContract.Presenter
     }
 
     @Override
-    public void onItemClick(FilterItem filterItem) {
+    public void onItemClick(FilterModel filterModel) {
         if (getCallback() == null) {
             return;
         }
-        getCallback().onFilterSelected(filterItem);
+        getCallback().onFilterSelected(filterModel);
     }
 
     @Override

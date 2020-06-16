@@ -144,6 +144,15 @@ PLDroidMediaStreaming-ByteDance 是七牛推出的一款适用于 Android 平台
       <td>眉毛</td>
       <td>提供包括纯黑、淡灰、自然黑等可选项</td>
    </tr>
+   <tr>
+      <td rowspan="2">美体</td>
+      <td>瘦身</td>
+      <td>通过调节参数设置瘦身效果。参数值越大瘦身效果越明显。</td>
+   </tr>
+   <tr>
+      <td>长腿</td>
+      <td>通过调节参数设置长腿效果。参数值越大长腿效果越明显。</td>
+   </tr>
 </table>
 
 

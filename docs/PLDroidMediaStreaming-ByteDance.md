@@ -7,7 +7,7 @@ PLDroidMediaStreaming-ByteDance 是七牛推出的一款适用于 Android 平台
 - 具有基本的 Android 开发能力
 - 准备接入七牛推流
 
-#3. 开发准备
+# 3. 开发准备
 ## 3.1 开发环境
 * Android Studio 开发工具，官方 [下载地址](http://developer.android.com/intl/zh-cn/sdk/index.html)
 * Android 官方开发 SDK，官方 [下载地址](https://developer.android.com/intl/zh-cn/sdk/index.html)
@@ -18,32 +18,33 @@ PLDroidMediaStreaming-ByteDance 是七牛推出的一款适用于 Android 平台
 - 系统要求：Android 4.4(API 19) 及其以上
 
 ## 3.3 下载和导入 SDK
-PLDroidMediaStreaming-ByteDance 包含两部分内容，分别为 PLDroidMediaStreaming（推流 SDK） 和 ByteDancePlugin（特效插件 SDK），**ByteDancePlugin 的版本需要在 1.0.1 及以上方可成功接入**。SDK 主要包含 Demo 代码、SDK jar 包，以及 SDK 依赖的动态库文件，以 armeabi-v7a 架构为例，说明如下：
+PLDroidMediaStreaming-ByteDance 包含两部分内容，分别为 PLDroidMediaStreaming（推流 SDK）和 PLDroidByteDanceEffect（特效插件 SDK），**PLDroidByteDanceEffect 的版本需要在 1.0.1 及以上方可成功接入**。SDK 主要包含 Demo 代码、SDK jar 包，以及 SDK 依赖的动态库文件，以 armeabi-v7a 架构为例，说明如下：
 
 | 文件名称                           | 功能      | 大小    | 备注          |
 | ------------------------------ | ------- | ----- | ----------- |
 | pldroid-media-streaming-x.y.z.jar   | 推流 SDK 库   | 448KB | 必须依赖     |
-| ByteDancePlugin-x.y.z.jar      | 特效插件 SDK 库| 93KB | 必须依赖        |
-| libpldroid\_streaming\_core.so | 推流核心库  | 92KB | 必须依赖        |
-| libeffect.so                   | 特效插件核心库 | 11.6MB | 必须依赖       |
-| libeffect_proxy.so             | 特效插件接口层 | 84KB  | 必须依赖        |
-| libpldroid\_mmprocessing.so            | 内置美颜模块 | 539KB  | 必须依赖 |
-| libpldroid\_streaming\_puic.so                        | QUIC模块 | 1.7MB     | 必须依赖    |
-| libpldroid\_streaming\_aac\_encoder.so           | AAC 音频编码库    | 114KB | 不使用音频软编可以去掉 |
-| llibpldroid\_streaming\_amix.so             | 混音模块    | 210KB | 不使用混音可以去掉 |
-| libpldroid\_streaming\_h264_encoder.so          | h.264编码模块 | 846KB | 不使用H.264软编可以去掉 |
+| pldroid-bytedance-effect-x.y.z.jar      | 特效插件 SDK 库| 98KB | 必须依赖        |
+| libpldroid\_streaming\_core.so | 推流核心库  | 92KB | 必须依赖       |
+| libeffect.so                   | 特效插件核心库 | 8.2MB | 必须依赖   |
+| libeffect_proxy.so             | 特效插件接口层 | 22KB  | 必须依赖    |
+| libc++_shared.so               | c++ 静态链接库 | 657KB | 必须依赖   |
+| libpldroid\_mmprocessing.so    | 内置美颜模块 | 539KB  | 必须依赖 |
+| libpldroid\_streaming\_puic.so | QUIC模块 | 1.7MB     | 必须依赖    |
+| libpldroid\_streaming\_aac\_encoder.so   | AAC 音频编码库    | 114KB | 不使用音频软编可以去掉 |
+| llibpldroid\_streaming\_amix.so  | 混音模块    | 210KB | 不使用混音可以去掉 |
+| libpldroid\_streaming\_h264_encoder.so  | h.264编码模块 | 846KB | 不使用H.264软编可以去掉 |
 
 ## 3.4 修改 build.gradle
-双击打开您的工程目录下的 `build.gradle` ，确保已经添加了如下依赖（代码中的`x.y.z`为具体的版本号），如下所示：
+在您工程目录下的 `build.gradle` 中添加如下依赖（代码中的`x.y.z`为具体的版本号）：
 
 ```java
 dependencies {
     implementation files('libs/pldroid-media-streaming-x.y.z.jar')
-    implementation files('libs/ByteDancePlugin-x.y.z.jar')
+    implementation files('libs/pldroid-bytedance-effect-x.y.z.jar')
     implementation 'com.qiniu:happy-dns:0.2.13'
 }
 ```
-**注意：ByteDancePlugin SDK 版本必须为 v1.0.1 及以上。建议接入推流 SDK 的版本在 v2.4.1.1 及以上**
+**注意：PLDroidByteDanceEffect SDK 版本必须为 v1.0.1 及以上。建议接入推流 SDK 的版本在 v2.4.1.1 及以上**
 
 ## 3.5 修改代码混淆规则
 为 proguard-rules.pro 增加如下规则:
@@ -78,22 +79,177 @@ dependencies {
 ## 3.8 添加特效素材
 | 文件名称                           | 文件类型      | 大小    | 备注          |
 | ------------------------------ | ------- | ----- | ----------- |
-| ComposeMakeup.bundle           | 高级美颜、美型、美妆素材 | 3.6MB | 包含若干款美颜、美型、美妆特效 |
+| ComposeMakeup.bundle           | 高级美颜、微整形、美妆、美体素材 | 4.2MB | 包含若干款美颜、微整形、美妆、美体特效 |
 | FilterResource.bundle          | 高级滤镜素材  |  12.3MB  | 包含 48 款滤镜 |
-| LicenseBag.bundle              | 授权文件   | 426字节  | 该包内有且只有一个文件，文件名内包含了所绑定的包名和授权的起止日期 |
-| ModelResource.bundle           | 模型文件  | 6.6MB  | 用于人脸识别、手势识别 |
-| StickerResource.bundle         | 动态贴纸素材 | 61.3MB | 包含 20 款动态贴纸 |
+| LicenseBag.bundle              | 授权文件   | 3KB  | 该包内应包含有一个与包名所对应的授权文件，文件名内包含了所绑定的包名和授权的起止日期 |
+| ModelResource.bundle           | 模型文件  | 13.8MB  | 用于人脸识别、手势识别等的模型文件 |
+| StickerResource.bundle         | 动态贴纸素材 | 39.4MB | 包含 20 款动态贴纸 |
 
-如用户需要更多款式的美颜、美型、滤镜、动态贴纸素材，可在特效君 APP 上选择，联系七牛商务咨询进行购买。
+- 如您需要更多款式的特效素材，可在特效君 APP 上选择，联系七牛商务咨询进行购买。
+- **授权文件是有到期时间的，如果过期，需要替换 LicenseBag.bundle 文件为新申请的授权文件。所以需要在授权文件过期前，替换 apk 中的 LicenseBag.bundle 文件（建议支持 LicenseBag.bundle 的云端下发功能）。**
 
-# 4. 接口设计
-PLDroidMediaStreaming-ByteDance 包含两部分内容，分别为 PLDroidMediaStreaming（推流 SDK）和 ByteDancePlugin（特效插件 SDK），有关于推流 SDK 的接口设计与使用请阅读[推流 SDK 使用文档](https://developer.qiniu.com/pili/sdk/3719/PLDroidMediaStreaming-function-using)，下面介绍特效插件 SDK 的接口设计：
+# 4. 快速开始
+## 4.1 资源的配置处理
+为了方便的获取特效的信息列表，首先应该对字节跳动的资源进行配置处理，分别为高级美颜/微整形/美妆/美体素材（ComposeMakeup.bundle）、高级滤镜素材（FilterResource.bundle）和动态贴纸素材（StickerResource.bundle）配置 config.json 文件与 icons 文件夹。此项配置是为了后面可以通过调用类似于 `getStickerList()` 的方法快速获取特效信息，投放入 Adapter 来生成视图，也是为了可以通过云端下发特效文件和配置文件的方式在不更新 APP 的情况下更新特效资源。  
 
-## 4.1 创建特效插件对象
+由于资源配置的过程较为繁琐，我们为您提供了一个处理脚本，您只需将字节提供的 resource 和 icons 文件夹拷入脚本同级目录，在脚本所在目录下运行脚本即可，具体的使用方式请参见上级目录的 ResourceTools 文件夹，运行脚本成功后您可更改对应素材文件下的 config.json 文件来修改特效图标、特效名称、特效初始强度甚至特效所在类别等信息。
+
+## 4.2 把资源从 assets 拷贝到手机本地目录
+在 Android 开发中携带额外的资源文件通常是会将其放入到 assets 文件夹中，当 apk 安装后会放到 /data/app/*.apk 目录下，以 apk 形式存在，assets 被绑定在 apk 中，并不会解压到 /data/data/YourApp 目录下去，所以我们无法直接获取到 assets 中文件的绝对路径。在进行 sdk 的初始化时和设置特效时都需要传入特效资源的地址，所以在此之前需要将资源从 assets 拷贝到本地目录中，可参考 demo 中的 LoadResourcesTask 类。
+
+## 4.3 获取特效信息
+如果拷贝成功，就可以传入 ByteDancePlugin 的初始化方法中，从而完成 ByteDancePlugin 的初始化：
+
 ```java
-ByteDancePlugin mByteDancePlugin = new ByteDancePlugin(this, pluginType, resourcePath);
+//该路径为上一步特效资源文件拷贝到外部存储中的路径
+String resourcePath = getExternalFilesDir("assets") + File.separator + "resource";
+mByteDancePlugin = new ByteDancePlugin(context, ByteDancePlugin.PluginType.record);
+mByteDancePlugin.init(resourcePath) //初始化操作在渲染线程调用
 ```
-参数 resourcePath 为资源文件的根路径，该路径需为手机本地文件路径，建议放在 assets 文件目录下，并自行拷贝至手机本地  
+ByteDancePlugin 是提供特效相关接口的核心类，您可以通过它获取特效资源信息列表：
+
+```java
+//获取所有滤镜信息
+ByteDancePlugin.getFilterList()
+//获取所有贴纸信息
+ByteDancePlugin.getStickerList()
+//获取所有美颜信息
+ByteDancePlugin.getComposerList(ComposerType.BEAUTY);
+//获取所有微整形信息
+ByteDancePlugin.getComposerList(ComposerType.RESHAPE);
+//获取所有美体信息
+ByteDancePlugin.getComposerList(ComposerType.BODY);
+//获取所有美妆信息
+ByteDancePlugin.getMakeupList();
+``` 
+需要说明的是，获取美妆信息的接口与其它获取特效信息列表的接口有所不同，因为美妆资源是二级列表，其结构如下：
+
+```
+├── 美妆模块
+│   └── 口红
+│       ├── 复古红
+│       ├── 少女粉
+│       ├── 西柚色
+│       ├── 西瓜红
+│       └── ***
+│   └── 腮红
+│       ├── 微醺
+│       ├── 日常
+│       ├── 蜜桃
+│       └── ***
+│   └── ***
+```
+`getMakeupList()` 返回的是一个 `List<MakeupModel>` ,可调用其子项 `MakeupModel.getEffects()` 方法来取得其子项类别的具体特效列表。
+
+## 4.4 特效处理
+特效处理是使用的核心步骤，建议参考 demo 中的 VideoRecordActivity 类。整体的步骤分为三步：  
+1.为 MediaStreamingManager 添加回调
+ 
+```java
+mMediaStreamingManager.setSurfaceTextureCallback(mSurfaceTextureCallback);
+mMediaStreamingManager.setStreamingPreviewCallback(mStreamingPreviewCallback);
+```
+2.创建 ByteDancePlugin 对象，如果是软编场景，需要开启 YUV 处理
+```java
+ByteDancePlugin mByteDancePlugin = new ByteDancePlugin(context, ByteDancePlugin.PluginType.record);
+mByteDancePlugin.enableProcessYUV(true);
+```
+3.在纹理和 YUV 的回调中利用 ByteDancePlugin 进行特效处理，并将特效处理后的结果返回。
+
+```java
+SurfaceTextureCallback mSurfaceTextureCallback = new SurfaceTextureCallback() {
+    private int count = 0;
+
+    @Override
+    public void onSurfaceCreated() {
+    	// 此地址为资源文件在手机本地的根路径地址
+        final String resourcePath = getExternalFilesDir("assets") + File.separator + "resource";
+        // 初始化操作应在渲染线程调用
+        mByteDancePlugin.init(resourcePath);
+        // destroy() 后重新 init() 需要执行此操作恢复之前设置的特效
+        mByteDamcePlugin.recoverEffects();
+    }
+
+    @Override
+    public void onSurfaceChanged(int width, int height) {
+        count = 0;
+    }
+
+    @Override
+    public void onSurfaceDestroyed() {
+        mByteDancePlugin.destroy();
+    }
+
+    @Override
+    public int onDrawFrame(int texId, int width, int height, float[] transformMatrix) {
+        if (mIsCameraSwitching || !mIsReady || mMediaStreamingManager.isPictureStreaming()) {
+            return texId;
+        }
+        // 跳过两帧是为了等待 OpenGL 环境的初始化完成，之后可以正常处理纹理
+        if (count < 2) {
+            count++;
+            return texId;
+        }
+        // onDrawFrame 返回的纹理格式为 OES ，经过 ByteDancePlugin.drawFrame 成功处理后的纹理格式为 2D
+        // 如果 ByteDancePlugin 未初始化或特效处理被关闭，返回的纹理为原纹理
+        return mByteDancePlugin.drawFrame(texId, width, height, System.nanoTime(), mProcessTypes, true);
+    }
+};
+
+StreamingPreviewCallback mStreamingPreviewCallback = new StreamingPreviewCallback() {
+    @Override
+    public boolean onPreviewFrame(final byte[] data, final int width, final int height, int rotation, int fmt, final long tsInNanoTime) {
+        addProcessType(rotation);
+        if (mEncodingConfig.mCodecType != AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC && mEncodingConfig.mCodecType != AVCodecType.HW_VIDEO_YUV_AS_INPUT_WITH_HW_AUDIO_CODEC) {
+            //非软编,不处理
+            return false;
+        }
+        if (mIsCameraSwitching || mMediaStreamingManager.isPictureStreaming()) {
+            return false;
+        }
+        mByteDancePlugin.processBuffer(data);
+        return true;
+    }
+};
+```
+需要注意的是：  
+
+-  ByteDancePlugin 处理纹理的时候，需要传入 ProcessType 类型的列表，该列表表明了需要将纹理方向转正所需要的操作，此列表的改变在 StreamingPreviewCallback 中，这是因为前后置摄像头返回的纹理在不同的手机上，方向或者镜像有可能不同，所以我们需要根据摄像头的前后置和回调纹理的方向来配置该列表（可参看 demo 中 AVStreamingActivity 类的 addProcessType 方法）。
+-  软编场景下，需要对 YUV 进行处理，因此，在初始化 ByteDancePlugin 的时候需要使用 enableProcessYUV 来开启 YUV 处理，这样 processBuffer 才可以正常工作。
+
+## 4.5 设置特效
+特效的设置或更新是通过 ByteDancePlugin 的一系列方法实现的，需要特别注意的是，设置或更新特效的方法需要在 OpenGL 线程中调用。
+
+``` java
+// 设置美颜、微整形、美妆、美体等特效
+mByteDancePlugin.setComposerNodes(nodes)
+// 更新美颜、微整形、美妆、美体特效的强度
+mByteDancePlugin.updateComposerNode(filePath, key, value)
+// 设置滤镜特效
+mByteDancePlugin.setFilter(filePath)
+// 更新滤镜特效强度
+mByteDancePlugin.updateFilterIntensity(intensity)
+// 设置动态贴纸特效
+mByteDancePlugin.setSticker(filePath)
+// 设置 composer 类型特效（美颜、微整形、美妆、美体）可以与贴纸特效叠加
+mByteDancePlugin.setComposerMode(ComposerMode.SHARE);
+```
+**凡是与特效相关的操作，包括设置、更新、处理等皆需要在渲染线程调用**
+
+```java
+// 如果因为某些原因导致特效消失，可调用此方法来恢复之前设置的特效
+mByteDancePlugin.recoverEffects();
+// 确定不再使用特效可以使用此方法释放特效资源
+mByteDancePlugin.destroy();
+```
+
+# 5. 接口设计
+PLDroidMediaStreaming-ByteDance 包含两部分内容，分别为 PLDroidMediaStreaming（推流 SDK）和 PLDroidByteDanceEffect（特效插件 SDK），有关于推流 SDK 的接口设计与使用请阅读[推流 SDK 使用文档](https://developer.qiniu.com/pili/sdk/3719/PLDroidMediaStreaming-function-using)，下面介绍特效插件 SDK 的接口设计：
+
+## 5.1 特效插件对象的创建
+```java
+ByteDancePlugin mByteDancePlugin = new ByteDancePlugin(this, pluginType);
+```
 参数 pluginType 为插件类型，此参数为一个枚举类型，对于推流来说只需要传入 `record` 类型即可，它的结构如下所示：
 
 ```java
@@ -112,240 +268,171 @@ public enum PluginType {
 }
 ```
 
-## 4.2 设置动态贴纸
+## 5.2 特效插件对象的初始化与销毁
 ```java
 /**
-  * 开启或者关闭贴纸，如果 path 为 null 或 ""，取消贴纸
-  *
-  * @param fileName 贴纸素材的文件名称
-  * @return 设置是否成功
-  */
-public boolean setSticker(String fileName)
-```
-
-## 4.3 设置滤镜
-```java
-/**
- * 开启或者关闭滤镜，如果 path 为 null 或 "", 取消滤镜
+ * 初始化资源与特效处理组件，需要在渲染线程调用
  *
- * @param fileName 滤镜资源文件名称
- * @return 设置是否成功
+ * @param resourcePath 特效资源路径
+ * @return 初始化是否成功
  */
-public boolean setFilter(String fileName)
-```
+public boolean init(String resourcePath)
 
-## 4.4 设置特效组合
-```java
 /**
- * 设置特效组合，目前仅支持美颜、美型两种特效的任意叠加
- *
- * @param nodes 资源路径数组
- * @return 设置是否成功
+ * 释放特效资源，需要在渲染线程调用
  */
-public boolean setComposeNodes(String[] nodes)
+public void destroy()
 ```
+需要注意的是 ByteDancePlugin 的初始化、销毁与特效处理都应该工作在预览渲染线程。
 
-## 4.5 设置 composer 特效是否可叠加
+## 5.3 设置特效的叠加模式
 ```java
 /**
- * 设置 composer 类型特效（美颜、美妆）是否可以与贴纸特效叠加
- * 如果设置为不可叠加，设置贴纸特效会覆盖掉 composer 类型特效
+ * 设置 composer 类型特效（美颜、微整形、美体、美妆）是否可以与贴纸特效叠加
+ * 如果设置为不可叠加，设置动态贴纸特效会覆盖掉 composer 类型特效，但 composer 类型特效不会覆盖动态贴纸特效
+ * 需要在渲染线程调用
  *
- * @param mode ALONE 代表不可叠加，SHARE 代表可叠加
+ * @param mode ALONE 代表不可叠加，SHARE 代表可叠加，默认为可叠加
  * @return 设置是否成功
  */
 public boolean setComposerMode(BytedEffectConstants.ComposerMode mode)
 ```
 
-## 4.6 更新某个特效的强度
+## 5.4 设置动态贴纸
 ```java
 /**
- * 更新某个特效的强度
+ * 设置贴纸，如果 path 为 null 或者 ""，则关闭贴纸
+ * 需要在渲染线程调用
  *
- * @param key   特效所对应的 key
- * @param value 特效强度
+ * @param filePath 贴纸素材的文件路径
  * @return 设置是否成功
  */
-public boolean updateComposeNode(String key, float value)
+public boolean setSticker(String filePath)
 ```
 
-## 4.7 设置某类型特效强度
+## 5.5 设置滤镜
 ```java
 /**
- * 设置美颜、滤镜强度
+ * 设置滤镜效果,如果 filePath 为 null 或者 "",则关闭滤镜
+ * 需要在渲染线程调用
  *
- * @param intensityType 强度类型
- * @param intensity     强度值 范围 0~1
- * @return 是否设置成功
+ * @param filePath 滤镜资源文件路径
+ * @return 设置是否成功
  */
-public boolean updateIntensity(BytedEffectConstants.IntensityType intensityType, float intensity)
-```
-与 4.6 稍有不同，该方法需要传入的 intensityType 参数为一个枚举类型，具体解释如下:
-
-```java
-public enum IntensityType {
-    // 调节滤镜
-    Filter(12),
-    // 调节美白 
-    BeautyWhite(1),
-    // 调节磨皮
-    BeautySmooth(2),
-    // 同时调节瘦脸和大眼
-    FaceReshape(3),
-    // 调整锐化
-    BeautySharp(9);
-
-    private int id;
-
-    public int getId() {
-        return id;
-    }
-
-    IntensityType(int id) {
-        this.id = id;
-    }
-}
+public boolean setFilter(String filePath)
 ```
 
-## 4.8 获得已经开启的特效节点名称
+## 5.6 设置特效组合
 ```java
 /**
- * 获得已经开启的特效节点
- * 
- * @return 已开启特效节点名称数组
+ * 开启 composer 类型特效（美颜、微整形、美体、美妆）的处理节点，可支持美颜、微整形、美体、美妆特效的任意叠加
+ * 需要在渲染线程调用
+ *
+ * @param nodes 资源路径名称数组
+ * @return 设置是否成功
  */
-public String[] getComposeNodes()
+public boolean setComposerNodes(String[] nodes)
 ```
 
-## 4.9 恢复特效设置
+## 5.7 更新某个特效的强度
 ```java
 /**
- * 恢复特效设置
+ * 更新某个 composer 类型特效（美颜、微整形、美体、美妆）的强度
+ * 需要在渲染线程调用
+ * @param filePath 特效资源文件路径
+ * @param key      特效所对应的 key
+ * @param value    特效强度，范围 0~1
+ * @return 设置是否成功
  */
-public void recoverStatus()
+public boolean updateComposerNode(String filePath, String key, float value)
 ```
 
-## 4.10 释放特效资源
+## 5.8 更新滤镜的特效强度
 ```java
 /**
- * 释放特效资源，需要工作在渲染线程
+ * 设置滤镜效果,如果 filePath 为 null 或者 "",则关闭滤镜
+ * 需要在渲染线程调用
+ *
+ * @param filePath 滤镜资源文件路径
+ * @return 设置是否成功
  */
-public void destroyEffectSDK()
+public boolean updateFilterIntensity(float intensity)
 ```
 
-## 4.11 获取支持的滤镜列表
+## 5.9 恢复特效设置
 ```java
 /**
- * 获取所有滤镜
+ * 恢复之前特效设置
+ * 可在意外情况丢失特效的情况下使用，需要在渲染线程调用
+ */
+public void recoverEffects()
+```
+
+## 5.10 获取滤镜的信息列表
+```java
+/**
+ * 获取所有滤镜信息，需要在 init 或 updateEffectsInfo 之后调用才会有数据
+ * 可使用 updateEffectsInfo 来更新列表
  *
  * @return 滤镜列表
  */
 public static List<FilterItem> getFilterList()
 ```
 
-## 4.12 获取支持的贴纸列表
+## 5.11 获取动态贴纸的信息列表
 ```java
 /**
- * 获取所有贴纸
+ * 获取所有贴纸信息，需要在 init 或 updateEffectsInfo 之后调用才会有数据
+ * 可使用 updateEffectsInfo 来更新列表
  *
  * @return 贴纸列表
  */
 public static List<StickerItem> getStickerList()
 ```
 
-## 4.13 获取支持的美颜列表
+## 5.12 获取指定类别的特效信息列表
 ```java
 /**
- * 获取所有美颜
+ * 获取指定类型的特效信息，需要在 init 或 updateEffectsInfo 之后调用才会有数据
+ * 可使用 updateEffectsInfo 来更新列表
  *
- * @return 美颜列表
+ * @return 特效信息列表
  */
-public static List<MakeUpModel> getBeautyList()
+public static List<ComposerModel> getComposerList(ComposerType composerType)
+```
+其中的 composerType 参数可指定三种类别：
+
+```java
+public enum ComposerType {
+    BEAUTY,
+    RESHAPE,
+    BODY
+}
 ```
 
-## 4.14 获取支持的美型列表
+## 5.13 获取美妆信息列表
 ```java
 /**
- * 获取所有美型
+ * 获取所有美妆信息，需要在 init 或 updateEffectsInfo 之后调用才会有数据
+ * 可使用 updateEffectsInfo 来更新列表
  *
- * @return 美型列表
+ * @return 美妆信息列表
  */
-public static List<MakeUpModel> getShapeList()
+public static List<MakeupModel> getMakeupList()
 ```
 
-## 4.15 获取支持的美妆类型列表
+## 5.14 更新特效信息列表
 ```java
 /**
- * 获取所有美妆类型
+ * 根据提供的资源地址更新特效信息
  *
- * @return 美妆类型列表，具体到某一部位
+ * @param resourcePath 特效资源文件根路径
  */
-public static List<MakeUpModel> getMakeUpList()
+public static void updateEffectsInfo(String resourcePath)
 ```
+此方法会触发重新解析特效资源配置文件，更新特效资源信息列表。
 
-## 4.16 获取支持的美妆效果集合
-```java
-/**
- * 获取所有具体的美妆效果集合
- *
- * @return 美妆效果集合，具体到某一部位的某一种效果
- */
-public static Map<String, List<MakeUpModel>> getMakeUpOptionItems()
-```
-
-## 4.17 获取支持的美体列表
-```java
-/**
- * 获取所有美体信息
- *
- * @return 美体列表
- */
-public static List<MakeUpModel> getBodyList()
-```
-
-## 4.18 更新 compose 类型特效列表
-```java
-/**
- * 从资源中重新解析配置文件，更新美颜、微整形、美妆、美体效果列表
- */
-public static void updateComposeList()
-```
-
-## 4.19 更新滤镜效果列表
-```java
-/**
- * 从资源中重新解析配置文件，更新滤镜效果列表
- */
-public static void updateFilterList()
-```
-
-## 4.20 更新动态贴纸列表
-```java
-/**
- * 从资源中重新解析配置文件，更新动态贴纸列表
- */
-public static void updateStickerList()
-```
-
-## 4.21 更新全部特效列表
-```java
-/**
- * 从资源中重新解析配置文件，更新全部特效列表
- */
-public static void updateAllList()
-```
-
-## 4.22 判断是否正在使用特效
-```java
-/**
- * 判断是否正在使用特效
- *
- * @return 如果已经使用了至少一种特效则返回 true ,否则返回 false
- */
-public boolean isUsingEffect()
-```
-
-## 4.23 预览时处理纹理
+## 5.15 预览时处理纹理
 ```java
 /**
  * 预览时特效处理
@@ -356,369 +443,54 @@ public boolean isUsingEffect()
  * @param timestampNs  时间戳
  * @param processTypes 处理类型列表
  * @param isOES        是否为 OES 格式纹理
- * @return 处理后的纹理，纹理格式为 2D ，处理失败会返回原纹理
+ * @return 处理后的纹理，如果处理成功则纹理格式为 2D，否则返回原纹理
  */
-public int onDrawFrame(int texId, int texWidth, int texHeight, long timestampNs, List<ProcessType> processTypes, boolean isOES)
+public int drawFrame(int texId, int texWidth, int texHeight, long timestampNs, List<ProcessType> processTypes, boolean isOES)
 ```
 `processTypes` 参数中存储的应为将纹理转正所需要的处理类型，推流 SDK 回调的纹理会因为摄像头的前后置、横竖屏而回调方向不同的纹理、YUV 数据，例如前置竖屏回调的纹理、YUV 数据是旋转了 90 度并做了竖向镜像的，转正需要经过旋转 270 度并横向镜像处理，使用该方法进行处理时， `processTypes` 应该顺序添加 `ProcessType.ROTATE_270` 与 `ProcessType.FLIPPED_HORIZONTAL` 来对纹理进行转正处理，其它情况请参见 PLDroidMediaStreamingDemo。传入的时间戳的变化速率会影响特效中动画的执行速度。
+在推流的回调中纹理的格式为 OES ，所以 isOES 参数应为 true。
 
-ProcessType 的类结构如下所示：
-
+## 5.16 开关 YUV 处理
 ```java
-public enum ProcessType {
-    //旋转 0 度
-    ROTATE_0,
-    //旋转 90 度
-    ROTATE_90,
-    //旋转 180 度
-    ROTATE_180,
-    //旋转 270 度
-    ROTATE_270,
-    //竖直镜像
-    FLIPPED_VERTICAL,
-    //横向镜像
-    FLIPPED_HORIZONTAL
-}
+/**
+ * 开关 YUV 数据的处理
+ *
+ * @param enable true 为开启
+ */
+public void enableProcessYUV(boolean enable)
 ```
+开关 YUV 数据的处理，软编场景下，需要对 YUV 进行处理，需要传入 true 开启 YUV 的数据处理以使得 processData 方法正常工作。
 
-## 4.24 处理 YUV 数据
+## 5.17 处理 YUV 数据
 ```java
 /**
  * 处理 YUV 数据
  *
- * @param inputData    YUV 数据
- * @param imageWidth   图像宽度
- * @param imageHeight  图像高度
- * @param processTypes 处理类型列表
- * @param outputData   处理后的 YUV 数据
- * @param timestampNs  YUV 数据的时间戳
+ * @param data   待处理 YUV 数据
  * @return 处理是否成功
  */
-public boolean processBuffer(byte[] inputData, int imageWidth, int imageHeight, byte[] outputData, List<ProcessType> processTypes, long timestampNs)
+public boolean processData(byte[] data)
 ```
-该方法的调用必须在其预览的 OpenGL 线程中，并且需要注意一点，如果未添加特效经过此方法处理会返回错误的数据，需要在外部添加判断。 `processTypes` 参数的使用与预览处理纹理相同，请参见 4.16 小节。传入的时间戳的变化速率会影响特效中动画的执行速度。
+此方法的调用需要依赖 enableProcessYUV 为 true 的情况。
 
-## 4.18 检测 SDK 是否已经初始化完毕
-```java
-/**
- * 返回是否已成功初始化 SDK
- *
- * @return 成功返回 true
- */
-public boolean isEffectSDKInited()
-```
-
-## 4.19 Surface 生命周期
-```java
-public void onSurfaceCreated()
-public void onSaveSurfaceChanged(int width, int height)
-public void onSurfaceDestroy()
-```
-这些方法应该随 Surface 的生命周期回调的调用而调用，如果是旋转摄像头，需要手动调用 `onSurfaceDestroy`。
-
-# 5 快速开始
-在开始编码之前请确保 jar、build.gradle、so、素材文件、混淆规则已正确配置，此处只展示大致的使用方式，详细的使用请参照 PLDroidStreamingDemo ,有关于推流 SDK 的使用请参照[推流 SDK 使用文档](https://developer.qiniu.com/pili/sdk/3719/PLDroidMediaStreaming-function-using)
-
-## 5.1 初始化 ByteDancePlugin
-```java
-//此路径为之前拷贝资源的地址，请在此之前自行将资源文件拷贝到手机本地
-String resourcePath = getExternalFilesDir("assets") + File.separator + "resource";
-//创建一个录制类型的 ByteDancePlugin
-ByteDancePlugin mByteDancePlugin = new ByteDancePlugin(this, ByteDancePlugin.PluginType.record, resourcePath);
-//设置 ComposerMode 为 BytedEffectConstants.ComposerMode.SHARE ，贴纸和美颜、美型可共存
-mByteDancePlugin.setComposerMode(BytedEffectConstants.ComposerMode.SHARE);
-//初始化处理类型列表，处理纹理、YUV 数据时需要传入
-mProcessTypes = new ArrayList<>();
-```
-
-## 5.2 硬编处理
-```java
-//对纹理回调的各个部分进行实现
-SurfaceTextureCallback mSurfaceTextureCallback = new SurfaceTextureCallback() {
-    private int count = 0;
-    @Override
-    public void onSurfaceCreated() {
-        mByteDancePlugin.onSurfaceCreated();
-    }
-
-    @Override
-    public void onSurfaceChanged(int width, int height) {
-        mByteDancePlugin.onSurfaceChanged(width, height);
-        count = 0;
-    }
-
-    @Override
-    public void onSurfaceDestroyed() {
-        mByteDancePlugin.onSurfaceDestroy();
-    }
-
-    @Override
-    public int onDrawFrame(int texId, int width, int height, float[] transformMatrix) {
-    	//如果摄像头正在旋转过程中或者未准备好，返回原纹理
-        if (mIsCameraSwitching || !mIsReady || mMediaStreamingManager.isPictureStreaming()) {
-            return texId;
-        }
-        //跳过两帧是为了等待 OpenGL 环境的初始化完成，之后可以正常处理纹理
-        if (count < 2) {
-            count++;
-            return texId;
-        }
-        //如果至少设置了一种特效则进行特效处理，否则返回原纹理
-        if (mByteDancePlugin.isUsingEffect()) {
-            return mByteDancePlugin.onDrawFrame(texId, width, height, System.nanoTime(), mProcessTypes, true);
-        } else {
-            return texId;
-        }
-    }
-};
-//将回调接口的实现设置到推流的管理类上
-mMediaStreamingManager.setSurfaceTextureCallback(mSurfaceTextureCallback);
-```
-## 5.3 软编处理
-```java
-//对 YUV 数据的回调进行实现
-StreamingPreviewCallback mStreamingPreviewCallback = new StreamingPreviewCallback() {
-    @Override
-    public boolean onPreviewFrame(final byte[] data, final int width, final int height, int rotation, int fmt, final long tsInNanoTime) {
-	addProcessType(rotation);
-        if (mEncodingConfig.mCodecType != AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC
-                && mEncodingConfig.mCodecType != AVCodecType.HW_VIDEO_YUV_AS_INPUT_WITH_HW_AUDIO_CODEC) {
-            //非软编,不处理
-            return false;
-        }
-	//如果正在旋转摄像头或正在进行图片推流，直接返回
-        if (mIsCameraSwitching || mMediaStreamingManager.isPictureStreaming()) {
-            return true;
-        }
-	//如果宽高发生了变化，重新设置 YUV 数据的容器
-        if (mImageWidth != width || mImageHeight != height) {
-            mImageWidth = width;
-            mImageHeight = height;
-            mOutputData = new byte[data.length];
-        }
-	//如果至少使用了一种特效，那么进行处理，否则跳过
-        if (mByteDancePlugin.isUsingEffect()) {
-            //使用同步辅助类来完成线程同步
-            final CountDownLatch countDownLatch = new CountDownLatch(1);
-            //将 YUV 数据的处理切到 GL 线程中执行
-            mCameraPreviewFrameView.queueEvent(new Runnable() {
-                @Override
-                public void run() {
-                    if (!mIsCameraSwitching) {
-                        mEffectProcessSuccess = mByteDancePlugin.processBuffer(data, width, height, mOutputData, mProcessTypes, System.nanoTime());
-                        //如果处理成功且处理后的数据不为 null，则进行拷贝
-                        if (mEffectProcessSuccess && mOutputData != null) {
-                            System.arraycopy(mOutputData, 0, data, 0, data.length);
-                        }
-                    }
-                    countDownLatch.countDown();
-                }
-            });
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return mEffectProcessSuccess;
-    }
-};
-```
-
-## 5.4 更新处理类型列表
-此处展示摄像头在不同情况下，处理类型列表所需要填入的参数，需要随摄像头方向的改变而改变。
-
-```java
-/**
- * 根据传入的旋转角度和摄像头的前后置情况对纹理、YUV 所需要进行的处理进行改变
- */
-private void addProcessType(int rotation) {
-    if (mRotation == rotation && mCurrentCamFacingIndex == mCameraStreamingSetting.getReqCameraId()) {
-        return;
-    } else {
-        mRotation = rotation;
-        mCurrentCamFacingIndex = mCameraStreamingSetting.getReqCameraId();
-    }
-    switch (rotation) {
-        case 0:
-            addProcessType(ProcessType.ROTATE_0);
-            break;
-        case 90:
-            addProcessType(ProcessType.ROTATE_90);
-            break;
-        case 180:
-            addProcessType(ProcessType.ROTATE_180);
-            break;
-        case 270:
-            addProcessType(ProcessType.ROTATE_270);
-            break;
-        default:
-            addProcessType(ProcessType.ROTATE_0);
-            break;
-    }
-}
-
-/**
- * 根据当前摄像头的前后置状态为 mProcessTypes 变量添加不同的 processType
- */
-private void addProcessType(ProcessType processType) {
-    mProcessTypes.clear();
-    mProcessTypes.add(processType);
-    if (mCurrentCamFacingIndex == CameraStreamingSetting.CAMERA_FACING_ID.CAMERA_FACING_FRONT.ordinal()) {
-        mProcessTypes.add(ProcessType.FLIPPED_HORIZONTAL);
-    }
-}
-```
-
-## 5.5 特效的设置
-```java
-//设置一个动态贴纸，传入 "" 代表取消贴纸
-mByteDancePlugin.setSticker(stickerFileName);
-//设置一个滤镜，传入 "" 代表取消滤镜
-mByteDancePlugin.setFilter(FilterFileName);
-//更新滤镜效果强度，value 值范围为 0~1
-mByteDancePlugin.updateIntensity(BytedEffectConstants.IntensityType.Filter, value);
-//加载特效，nodes 为特效名称字符串数组
-mByteDancePlugin.setComposeNodes(nodes);
-//更新某个特效节点强度，key 值为特效节点特征值，固定且唯一，配置在 config.json 中，可查看该文档第七节资源格式，value 值范围为 0~1
-mByteDancePlugin.updateComposeNode(key, value);
-//开启与关闭特效，默认为开启状态
-mByteDancePlugin.setEffectOn(isOn);
-```
-**注意：设置与更新特效的操作请确保工作在 OpenGL 线程**
-
-```java
-//如果因为某些原因导致特效消失，可调用此方法来恢复之前设置的特效
-mByteDancePlugin.recoverStatus();
-//确定不再使用特效可以使用此方法释放特效资源
-mByteDancePlugin.destroyEffectSDK();
-```
-
-# 6 资源相关
-## 6.1 资源格式
-### 6.1.1 ComposeMakeup 美颜、美型、美妆、美体
-SDK 会根据该目录下的 config.json 文件来解析素材文件，可使用 `getBeautyList` 获取可支持的美颜信息列表，使用 `getShapeList` 获取美型信息列表，使用 `getMakeUpList` 获取美妆类型信息列表，使用 `getMakeUpOptionItems` 获取具体的美妆信息集合，使用 `getBodyList` 获取美体信息列表，用户可按照格式修改其内容，详细配置请参考 demo ,大致格式如下：
-
-```java
-{
-  "beauty": [
-    {
-      "fileName": "beauty_Android", //美颜素材文件夹名称
-      "iconName": "smooth.png", //特效图标名称，请放在美颜素材文件夹下
-      "effectName": "磨皮", //特效名称
-      "key": "smooth", //特效特征值，不可更改
-      "defaultIntensity": 0.5 //默认特效强度，范围 0~1
-    },
-    
-    ...
-    
-  ],
-  "reshape": [
-    {
-      "fileName": "reshape", //美型素材文件夹名称
-      "iconName": "cheek.png", //特效图标名称，请放在美型素材文件夹下
-      "effectName": "瘦脸", //特效名称
-      "key": "Internal_Deform_Overall", //特效特征值，不可更改
-      "defaultIntensity": 0.5 //默认特效强度，范围 0~1
-    },
-    
-    ...
-    
-  ]，
-  "makeUp": {
-    "blush": { //美妆素材文件夹名称
-      "effectClassName": "腮红", //美妆类型名称
-      "iconName": "blush.png", //该类美妆类型所展示的图标名称，请放在对应的素材文件夹下
-      "key": "Internal_Makeup_Blusher", //该类美妆特效的特征值，不可更改
-      "effect": [ //该类美妆类型中所包含的具体的特效效果
-        {
-          "fileName": "weixun", //具体特效的文件夹名称，请在此文件夹下放入 icon.png 作为图标
-          "effectName": "微醺", //具体特效的名称
-          "defaultIntensity": 0.5 //具体特效的默认强度，范围 0~1
-        },
-        
-        ...
-        
-    	]
-    },
-    "eyebrow": {
-      "effectClassName": "眉毛",
-      "iconName": "eyebrow.png",
-      "key": "Internal_Makeup_Brow",
-      "effect": [
-        {
-          "fileName": "BR01",
-          "effectName": "BRO1",
-          "defaultIntensity": 0.5
-        },
-           
-        ...
-        
-    	]
-    }
-  },
-  "body": [
-    {
-      "fileName": "body/longleg", //美体素材文件夹路径
-      "iconName": "leg.png", //特效图标名称，请放在美体素材文件夹下
-      "effectName": "长腿", //特效名称
-      "key": "", //特效特征值，不可更改
-      "defaultIntensity": 0.5 //默认特效强度，范围 0~1
-    },
-    
-    ...
-    
-  ]
-}
-```
-
-### 6.1.2 FilterResource 滤镜
-SDK 会根据该目录下的 config.json 文件来解析素材文件，可使用 `getFilterList` 来获取滤镜信息，用户可按照格式修改其内容，json 格式如下：  
-
-```
-[
-  {
-    "fileName":"Filter_01_38", //滤镜素材文件夹名称,该文件夹下的 icon.png 为滤镜效果图，用户可自行更换
-    "filterName": "柔白", //滤镜名称
-    "defaultIntensity": 0.8 //滤镜默认强度
-  },
-  
-  ...
-  
-]
-```
-
-### 6.1.3 StickerResource 动态贴纸
-SDK 会根据该目录下的 config.json 文件来解析素材文件，可使用 `getStickerList` 来获取动态贴纸信息，用户可按照格式修改其内容，json 格式如下：
-
-```java
-[
-  {
-    "fileName": "bawanglong", //动态贴纸素材文件夹名称,该文件夹下的 icon.png 为动态贴纸效果图，用户可自行更换
-    "stickerName": "霸王龙", //动态贴纸名称
-    "tip": "嗷呜~" //动态贴纸附加内容
-  },
-  
-  ...
-  
-]
-```
-
-### 6.1.4 LicenseBag 授权文件
-SDK 会根据该文件夹下的文件进行鉴权，请确保该文件夹下文件有且只有一个。如果授权过期可通过动态下发文件来替换该文件即可（文件下发的逻辑需要您自行实现），无需更新 APP。
+# 6. 资源相关
+## 6.1 LicenseBag 授权文件
+SDK 会根据该文件夹下的文件进行鉴权，请确保该文件夹下的文件中只有一个文件名称中包含应用的 ApplicationId。如果授权过期可通过动态下发文件来替换之前的文件即可（文件下发的逻辑需要您自行实现），无需更新 APP。
 
 ## 6.2 素材购买与更新
-如果用户想要购买更多样的特效素材，可前往特效君 App 进行挑选，只限美颜、美型、滤镜与动态贴纸。
-如果用户需要在 APP 中新增或者更新素材，可通过动态下发素材文件到素材文件夹，无需更新 APP。
-
-## 6.3 常见错误
-### 6.3.1 EffectSDK ERROR: Parser: cJson parse fail 
-EffectSDK ERROR: Parser: cJson parse fail 出现这个报错一般是素材与 license 绑定的 ApplicationID 不匹配（每套素材都会与其授权绑定，需配套使用），请检查使用的素材与授权是否配套。
-
-### 6.3.2 ERROR: FileUtil: readFile: file ……… xxx.config.json is not exist
-出现上述日志，表示设置的素材路径可能不正确，SDK内部没有正确读到素材的配置文件，请检查素材路径是否正确。
+如果您想要购买更多样的特效素材，可前往特效君 App 进行挑选。
+如果您需要在 APP 中新增或者更新素材，可通过动态下发特效资源文件和配置文件到手机上的素材文件夹（文件下发的逻辑由您来做），无需更新 APP。
 
 # 7. 历史记录
+* 2.0.0
+  - 发布 pldroid-bytedance-effect-2.0.0.jar
+  - 发布字节资源 v3.9 处理脚本
+  - 发布 libc++_shared.so
+  - 升级 libeffect.so
+  - 升级 libeffect_proxy.so
+  - 修复了美妆中口红特效出现在唇部遮挡物上的问题
+  - 优化了美体的边缘效果
+  - 优化了 YUV 处理速度
 * 1.0.2
   - 发布 ByteDancePlugin-1.0.2.jar
   - 新增获取可支持的美妆类型列表的接口
@@ -773,29 +545,47 @@ EffectSDK ERROR: Parser: cJson parse fail 出现这个报错一般是素材与 l
 答：可通过 400-808-9176 转 2 号线联系七牛商务咨询，或者 [通过工单](https://support.qiniu.com/?ref=developer.qiniu.com) 联系七牛的技术支持。
 
 ## 8.2 是否支持更多的动态贴纸、滤镜效果？
-答：支持，用户可以额外购买动态贴纸、滤镜等素材，可在特效君 APP 上进行选择，联系七牛商务进行购买。
+答：支持，您可以额外购买动态贴纸、滤镜等素材，可在特效君 APP 上进行选择，联系七牛商务进行购买。
 
-## 8.3 素材是否通用？
-答：不通用，素材与包名绑定，不同包名不可以混用素材
+## 8.3 特效素材是否通用？
+答：不通用，素材与包名绑定，不同包名不可以混用素材。
 
-## 8.4 如何使用 demo 中默认授权进行测试？
+## 8.4 如何使用 demo 中的授权进行测试？
 答：将 ApplicationID 修改为 `com.qiniu.pili.droid.streaming.bytedance.demo` 并将资源文件正确配置即可开始测试。
 
-## 8.5 正式授权到期必需替换新授权发布新版本强制用户更新吗？
-答：正式授权到期需替换新授权文件，但不一定需要发布新版本，建议可以通过类似文件下发服务的方式将新授权文件下发下去，这属于应用层逻辑。
+## 8.5 授权到期必须通过发布新版本强制用户更新吗？
+答：正式授权到期需替换新授权文件，但不一定需要发布新版本，建议可以通过类似文件下发服务的方式将新授权文件下发下去，替换原授权文件的位置即可，这属于应用层逻辑。
 
 ## 8.6 授权失败可能的原因有哪些？
 答：请先检查是否为下面的原因  
 1.检查手机系统时间是否正常  
 2.检查 ApplicationId 是否与授权包名一致  
 3.检查 check_license 与对应版本号是否一致  
+常见的授权错误码返回：
+
+| 授权错误码名称                         | 错误码编号  | 解释                |
+| ------------------------------------ | --------   | -----------------  |
+| BEF_RESULT\_INVALID\_LICENSE         |   -114   | 无效的license      |
+| BEF_RESULT\_NULL\_BUNDLEID           |   -115    | ApplicationId 为空 |
+| BEF_RESULT\_LICENSE\_STATUS\_INVALID |   -116   | 非法授权文件      |
+| BEF_RESULT\_LICENSE\_STATUS\_EXPIRED |   -117    | 授权文件过期 |
+| BEF_RESULT\_LICENSE\_STATUS\_NO\_FUNC|   -118   | 请求功能不匹配      |
+| BEF_RESULT\_LICENSE\_STATUS\_ID\_NOT\_MATCH  |    -119    | ApplicationId 不匹配 |
+| BEF_RESULT\_LICENSE\_BAG\_NULL\_PATH |   -120   | 授权包路径为空      |
+| BEF_RESULT\_LICENSE\_BAG\_INVALID\_PATH |   -121    | 错误的授权包路径 |
+| BEF_RESULT\_LICENSE\_BAG\_TYPE\_NOT\_MATCH |   -122   | 授权包类型不匹配      |
+| BEF_RESULT\_LICENSE\_BAG\_INVALID\_VERSION |   -123    | 无效的版本 |
+| BEF_RESULT\_LICENSE\_BAG\_INVALID\_BLOCK\_COUNT |   -124   | 无效的数据块      |
+| BEF_RESULT\_LICENSE\_BAG\_INVALID\_BLOCK\_LEN |   -125    | 无效的数据块长度 |
+| BEF_RESULT\_LICENSE\_BAG\_INCOMPLETE\_BLOCK |   -126   | 数据块不完整      |
+| BEF_RESULT\_LICENSE\_BAG\_UNAUTHORIZED\_FUNC |   -127    | 未授权的功能 |
+
+4.检查 log 是否存在 EffectSDK ERROR: Parser: cJson parse fail，出现这个报错一般是素材与 license 绑定的 ApplicationId 不匹配（每套素材都会与其授权绑定，需配套使用），请检查使用的素材与授权是否配套。  
+
 如确定不是以上问题，请[通过工单](https://support.qiniu.com/?ref=developer.qiniu.com) 联系七牛的技术支持。
 
 ## 8.7 资源文件体积较大，可以做文件下发吗？
-答：可以，ByteDancePlugin 实例化的时候并不会检查资源文件的完整性，但要确保授权文件的存在，随后可根据使用接口获取的特效信息来判断特效文件是否存在，向客户展示不同的图标，当用户选择一个特效文件不存在的特效时请求服务器，将得到的文件放到对应的资源路径，随后调用设置特效接口即可。
+答：可以，ByteDancePlugin 初始化的时候并不会检查资源文件的完整性，但要确保授权文件的存在，特效信息的获取是根据您在特效资源中的配置来返回的，与其中指向的特效资源文件是否存在无关，您可以根据使用接口获取的特效信息来判断特效文件是否存在，向客户展示不同的图标，当用户选择一个特效文件不存在的特效时请求服务器，将得到的文件放到对应的资源路径，随后调用设置特效接口即可。
 
 ## 8.8 新购买了额外的特效素材，如何更新到已经上线的 APP 中
-答：借助文件下发，将旧的资源文件替换为新的资源文件即可。
-
-## 8.9 特效素材文件需要配置 json ,其中的 key 值从哪里可以找到？
-答：在 demo 资源文件的 config.json 中可以查询每种特效所对应的 key 。
+答：借助文件下发（此功能需要由您自行实现），将旧的资源文件替换为新的资源文件即可。

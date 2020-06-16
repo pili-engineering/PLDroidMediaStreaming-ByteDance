@@ -99,4 +99,9 @@ public class EffectPresenter extends EffectContract.Presenter {
     private boolean isAhead(ComposerNode node) {
         return (node.getId() & MASK) == TYPE_MAKEUP_OPTION;
     }
+
+    @Override
+    public boolean isHairType(int id){
+        return mItemGet.isHairType(id);
+    }
 }

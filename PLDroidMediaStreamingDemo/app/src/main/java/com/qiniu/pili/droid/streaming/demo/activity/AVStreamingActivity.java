@@ -29,8 +29,8 @@ import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 import com.qiniu.bytedanceplugin.ByteDancePlugin;
-import com.qiniu.bytedanceplugin.effectsdk.BytedEffectConstants;
-import com.qiniu.bytedanceplugin.utils.ProcessType;
+import com.qiniu.bytedanceplugin.model.ComposerMode;
+import com.qiniu.bytedanceplugin.model.ProcessType;
 import com.qiniu.pili.droid.streaming.AVCodecType;
 import com.qiniu.pili.droid.streaming.CameraStreamingSetting;
 import com.qiniu.pili.droid.streaming.FrameCapturedCallback;
@@ -58,7 +58,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CountDownLatch;
+
+import static com.qiniu.pili.droid.streaming.AVCodecType.HW_VIDEO_SURFACE_AS_INPUT_WITH_HW_AUDIO_CODEC;
 
 public class AVStreamingActivity extends StreamingBaseActivity implements CameraPreviewFrameView.Listener {
     private static final String TAG = "AVStreamingActivity";
@@ -110,308 +111,10 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Camera
     private int mTimes = 0;
     private boolean mIsPictureStreaming = false;
 
-    //特效相关
-    private ByteDancePlugin mByteDancePlugin;
-    //特效处理列表，其中存储的是将纹理、YUV转正所需要的处理类型
-    private volatile CopyOnWriteArrayList<ProcessType> mProcessTypes;
-    private int mImageWidth;
-    private int mImageHeight;
-    private int mRotation;
-    private boolean mEffectProcessSuccess;
-    private byte[] mOutputData;
-    private volatile boolean mIsCameraSwitching = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initByteDanceEffect();
-    }
-
-    private void initByteDanceEffect() {
-        //此路径为之前拷贝资源的地址
-        String resourcePath = getExternalFilesDir("assets") + File.separator + "resource";
-        mByteDancePlugin = new ByteDancePlugin(this, ByteDancePlugin.PluginType.record, resourcePath);
-        mByteDancePlugin.setComposerMode(BytedEffectConstants.ComposerMode.SHARE);
-        mProcessTypes = new CopyOnWriteArrayList<>();
-    }
-
-    SurfaceTextureCallback mSurfaceTextureCallback = new SurfaceTextureCallback() {
-        private int count = 0;
-
-        @Override
-        public void onSurfaceCreated() {
-            mByteDancePlugin.onSurfaceCreated();
-        }
-
-        @Override
-        public void onSurfaceChanged(int width, int height) {
-            mByteDancePlugin.onSurfaceChanged(width, height);
-            count = 0;
-        }
-
-        @Override
-        public void onSurfaceDestroyed() {
-            mByteDancePlugin.onSurfaceDestroy();
-        }
-
-        @Override
-        public int onDrawFrame(int texId, int width, int height, float[] transformMatrix) {
-            if (mIsCameraSwitching || !mIsReady || mMediaStreamingManager.isPictureStreaming()) {
-                return texId;
-            }
-            //跳过两帧是为了等待 OpenGL 环境的初始化完成，之后可以正常处理纹理
-            if (count < 2) {
-                count++;
-                return texId;
-            }
-            if (mByteDancePlugin.isUsingEffect()) {
-                return mByteDancePlugin.onDrawFrame(texId, width, height, System.nanoTime(), mProcessTypes, true);
-            } else {
-                return texId;
-            }
-        }
-    };
-
-    StreamingPreviewCallback mStreamingPreviewCallback = new StreamingPreviewCallback() {
-        @Override
-        public boolean onPreviewFrame(final byte[] data, final int width, final int height, int rotation, int fmt, final long tsInNanoTime) {
-            addProcessType(rotation);
-            if (mEncodingConfig.mCodecType != AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC
-                    && mEncodingConfig.mCodecType != AVCodecType.HW_VIDEO_YUV_AS_INPUT_WITH_HW_AUDIO_CODEC) {
-                //非软编,不处理
-                return false;
-            }
-
-            if (mIsCameraSwitching || mMediaStreamingManager.isPictureStreaming()) {
-                return true;
-            }
-
-            if (mImageWidth != width || mImageHeight != height) {
-                mImageWidth = width;
-                mImageHeight = height;
-                mOutputData = new byte[data.length];
-            }
-
-            if (mByteDancePlugin.isUsingEffect() && mByteDancePlugin.isEffectSDKInited()) {
-                final CountDownLatch countDownLatch = new CountDownLatch(1);
-                mCameraPreviewFrameView.queueEvent(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!mIsCameraSwitching) {
-                            mEffectProcessSuccess = mByteDancePlugin.processBuffer(data, width, height, mOutputData, mProcessTypes, System.nanoTime());
-                            if (mEffectProcessSuccess && mOutputData != null) {
-                                System.arraycopy(mOutputData, 0, data, 0, data.length);
-                            }
-                        }
-                        countDownLatch.countDown();
-                    }
-                });
-                try {
-                    countDownLatch.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return mEffectProcessSuccess;
-        }
-    };
-
-    /**
-     * 根据传入的旋转角度和摄像头的前后置情况对纹理、YUV 所需要进行的处理进行改变
-     */
-    private void addProcessType(int rotation) {
-        if (mRotation == rotation && mCurrentCamFacingIndex == mCameraStreamingSetting.getReqCameraId()) {
-            return;
-        } else {
-            mRotation = rotation;
-            mCurrentCamFacingIndex = mCameraStreamingSetting.getReqCameraId();
-        }
-        switch (rotation) {
-            case 0:
-                addProcessType(ProcessType.ROTATE_0);
-                break;
-            case 90:
-                addProcessType(ProcessType.ROTATE_90);
-                break;
-            case 180:
-                addProcessType(ProcessType.ROTATE_180);
-                break;
-            case 270:
-                addProcessType(ProcessType.ROTATE_270);
-                break;
-            default:
-                addProcessType(ProcessType.ROTATE_0);
-                break;
-        }
-    }
-
-    /**
-     * 根据当前摄像头的前后置状态为 mProcessTypes 变量添加不同的 processType
-     */
-    private void addProcessType(ProcessType processType) {
-        mProcessTypes.clear();
-        mProcessTypes.add(processType);
-        if (mCurrentCamFacingIndex == CameraStreamingSetting.CAMERA_FACING_ID.CAMERA_FACING_FRONT.ordinal()) {
-            mProcessTypes.add(ProcessType.FLIPPED_HORIZONTAL);
-        }
-    }
-
-    /**
-     * 展示指定的 fragemnt
-     * @param tag effect 代表特效面板，sticker 代表贴纸面板
-     */
-    private void showPanel(String tag) {
-        if (showingFragment() != null) {
-            getSupportFragmentManager().beginTransaction().hide(showingFragment()).commit();
-        }
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out);
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
-
-        if (fragment == null) {
-            fragment = generateFragment(tag);
-            ft.add(R.id.fl_avstreaming_panel_container, fragment, tag).commit();
-        } else {
-            ft.show(fragment).commit();
-        }
-        showOrHideBottomLayout(false);
-    }
-
-    /**
-     * 将底部视图隐藏或者显示
-     * @param show 是否显示
-     */
-    private void showOrHideBottomLayout(boolean show) {
-        if (show) {
-            mRlBottomLayout.setVisibility(View.VISIBLE);
-            mSeekBarBeauty.setVisibility(View.VISIBLE);
-        } else {
-            mRlBottomLayout.setVisibility(View.GONE);
-            mSeekBarBeauty.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 根据 tag 创建指定的 fragment
-     * @param tag effect 代表特效面板，sticker 代表贴纸面板
-     * @return 创建好的 fragment
-     */
-    private Fragment generateFragment(String tag) {
-        switch (tag) {
-            case TAG_EFFECT:
-                if (mEffectFragment != null) {
-                    return mEffectFragment;
-                }
-
-                final EffectFragment effectFragment = new EffectFragment();
-                effectFragment.setCallback(new EffectFragment.IEffectCallback() {
-
-                    @Override
-                    public void updateComposeNodes(final String[] nodes) {
-                        mCameraPreviewFrameView.queueEvent(new Runnable() {
-                            @Override
-                            public void run() {
-                                mByteDancePlugin.setComposeNodes(nodes);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateComposeNodeIntensity(final String key, final float value) {
-                        mCameraPreviewFrameView.queueEvent(new Runnable() {
-                            @Override
-                            public void run() {
-                                mByteDancePlugin.updateComposeNode(key, value);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFilterSelected(final String fileName) {
-                        mCameraPreviewFrameView.queueEvent(new Runnable() {
-                            @Override
-                            public void run() {
-                                mByteDancePlugin.setFilter(fileName);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFilterValueChanged(final float value) {
-                        mCameraPreviewFrameView.queueEvent(new Runnable() {
-                            @Override
-                            public void run() {
-                                mByteDancePlugin.updateIntensity(BytedEffectConstants.IntensityType.Filter,value);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void setEffectOn(final boolean isOn) {
-                        mCameraPreviewFrameView.queueEvent(new Runnable() {
-                            @Override
-                            public void run() {
-                                mByteDancePlugin.setEffectOn(isOn);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onDefaultClick() {
-
-                    }
-                });
-                mEffectFragment = effectFragment;
-                return effectFragment;
-            case TAG_STICKER:
-                if (mStickerFragment != null) {
-                    return mStickerFragment;
-                }
-                StickerFragment stickerFragment = new StickerFragment();
-                stickerFragment.setCallback(new StickerFragment.IStickerCallback() {
-                    @Override
-                    public void onStickerSelected(final String fileName) {
-                        mCameraPreviewFrameView.queueEvent(new Runnable() {
-                            @Override
-                            public void run() {
-                                mByteDancePlugin.setSticker(fileName);
-                            }
-                        });
-                    }
-                });
-                mStickerFragment = stickerFragment;
-                return stickerFragment;
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * 取得正在显示的 fragment
-     * @return 正在显示的 fragment
-     */
-    private Fragment showingFragment() {
-        if (mEffectFragment != null && !mEffectFragment.isHidden()) {
-            return mEffectFragment;
-        } else if (mStickerFragment != null && !mStickerFragment.isHidden()) {
-            return mStickerFragment;
-        }
-        return null;
-    }
-
-    /**
-     * 关闭正在显示的面板
-     * @return 是否成功关闭
-     */
-    private boolean closeFragment() {
-        Fragment showingFragment = showingFragment();
-        if (showingFragment != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out);
-            ft.hide(showingFragment).commit();
-        }
-        showOrHideBottomLayout(true);
-        return showingFragment != null;
+        initEffect();
     }
 
     @Override
@@ -474,9 +177,9 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Camera
         mMediaStreamingManager.setAudioSourceCallback(this);
         mMediaStreamingManager.setStreamingStateListener(this);
         if (mCameraConfig.mIsCustomFaceBeauty) {
-            //硬编
+            // 设置纹理回调
             mMediaStreamingManager.setSurfaceTextureCallback(mSurfaceTextureCallback);
-            //软编
+            // 设置 YUV 回调
             mMediaStreamingManager.setStreamingPreviewCallback(mStreamingPreviewCallback);
         }
 
@@ -556,7 +259,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Camera
             mCameraPreviewFrameView.queueEvent(new Runnable() {
                 @Override
                 public void run() {
-                    mByteDancePlugin.onSurfaceDestroy();
+                    mByteDancePlugin.destroy();
                 }
             });
             mIsEncodingMirror = mCameraConfig.mEncodingMirror;
@@ -838,7 +541,7 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Camera
             }
         });
 
-        if (mEncodingConfig.mCodecType == AVCodecType.HW_VIDEO_SURFACE_AS_INPUT_WITH_HW_AUDIO_CODEC ||
+        if (mEncodingConfig.mCodecType == HW_VIDEO_SURFACE_AS_INPUT_WITH_HW_AUDIO_CODEC ||
                 mEncodingConfig.mCodecType == AVCodecType.HW_VIDEO_SURFACE_AS_INPUT_WITH_SW_AUDIO_CODEC ||
                 mEncodingConfig.mCodecType == AVCodecType.HW_VIDEO_WITH_HW_AUDIO_CODEC ||
                 mEncodingConfig.mCodecType == AVCodecType.HW_VIDEO_CODEC) {
@@ -1304,5 +1007,294 @@ public class AVStreamingActivity extends StreamingBaseActivity implements Camera
             mMediaStreamingManager.setZoomValue(mCurrentZoom);
         }
         return false;
+    }
+
+    /**
+     * ################################ 特效相关 ###################################
+     */
+
+    private ByteDancePlugin mByteDancePlugin;
+    // 特效处理列表，其中存储的是将纹理、YUV 转正所需要进行的处理
+    private volatile CopyOnWriteArrayList<ProcessType> mProcessTypes;
+    private int mRotation;
+    private volatile boolean mIsCameraSwitching = false;
+
+    private void initEffect() {
+        mByteDancePlugin = new ByteDancePlugin(this, ByteDancePlugin.PluginType.record);
+        if (mEncodingConfig.mCodecType != HW_VIDEO_SURFACE_AS_INPUT_WITH_HW_AUDIO_CODEC){
+            mByteDancePlugin.setYUVProcessEnabled(true);
+        }
+        mProcessTypes = new CopyOnWriteArrayList<>();
+    }
+
+    /**
+     * ———————————————————————————————— 特效处理相关 ————————————————————————————————————
+     */
+
+    SurfaceTextureCallback mSurfaceTextureCallback = new SurfaceTextureCallback() {
+        private int count = 0;
+
+        @Override
+        public void onSurfaceCreated() {
+            //此路径为之前拷贝资源的地址
+            final String resourcePath = getExternalFilesDir("assets") + File.separator + "resource";
+            mByteDancePlugin.init(resourcePath);
+            mByteDancePlugin.recoverEffects();
+        }
+
+        @Override
+        public void onSurfaceChanged(int width, int height) {
+            count = 0;
+        }
+
+        @Override
+        public void onSurfaceDestroyed() {
+            mByteDancePlugin.destroy();
+        }
+
+        @Override
+        public int onDrawFrame(int texId, int width, int height, float[] transformMatrix) {
+            if (mIsCameraSwitching || !mIsReady || mMediaStreamingManager.isPictureStreaming()) {
+                return texId;
+            }
+            //跳过两帧是为了等待 OpenGL 环境的初始化完成，之后可以正常处理纹理
+            if (count < 2) {
+                count++;
+                return texId;
+            }
+            // onDrawFrame 返回的纹理格式为 OES ，经过 ByteDancePlugin.drawFrame 成功处理后的纹理格式为 2D
+            // 如果 ByteDancePlugin 未初始化或特效处理被关闭，返回的纹理为原纹理
+            if (mByteDancePlugin.isUsingEffect()) {
+                return mByteDancePlugin.drawFrame(texId, width, height, System.nanoTime(), mProcessTypes, true);
+            } else {
+                return texId;
+            }
+        }
+    };
+
+    StreamingPreviewCallback mStreamingPreviewCallback = new StreamingPreviewCallback() {
+        @Override
+        public boolean onPreviewFrame(final byte[] data, final int width, final int height, int rotation, int fmt, final long tsInNanoTime) {
+            addProcessType(rotation);
+            if (mEncodingConfig.mCodecType != AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC
+                    && mEncodingConfig.mCodecType != AVCodecType.HW_VIDEO_YUV_AS_INPUT_WITH_HW_AUDIO_CODEC) {
+                //非软编,不处理
+                return false;
+            }
+            if (mIsCameraSwitching || mMediaStreamingManager.isPictureStreaming()) {
+                return false;
+            }
+            if (mByteDancePlugin.isUsingEffect()) {
+                mByteDancePlugin.processData(data);
+            }
+            return true;
+        }
+    };
+
+    /**
+     * 根据传入的旋转角度和摄像头的前后置情况对纹理、YUV 所需要进行的处理进行改变
+     */
+    private void addProcessType(int rotation) {
+        if (mRotation == rotation && mCurrentCamFacingIndex == mCameraStreamingSetting.getReqCameraId()) {
+            return;
+        } else {
+            mRotation = rotation;
+            mCurrentCamFacingIndex = mCameraStreamingSetting.getReqCameraId();
+        }
+        switch (rotation) {
+            case 0:
+                addProcessType(ProcessType.ROTATE_0);
+                break;
+            case 90:
+                addProcessType(ProcessType.ROTATE_90);
+                break;
+            case 180:
+                addProcessType(ProcessType.ROTATE_180);
+                break;
+            case 270:
+                addProcessType(ProcessType.ROTATE_270);
+                break;
+            default:
+                addProcessType(ProcessType.ROTATE_0);
+                break;
+        }
+    }
+
+    /**
+     * 根据当前摄像头的前后置状态为 mProcessTypes 变量添加不同的 processType
+     */
+    private void addProcessType(ProcessType processType) {
+        mProcessTypes.clear();
+        mProcessTypes.add(processType);
+        if (mCurrentCamFacingIndex == CameraStreamingSetting.CAMERA_FACING_ID.CAMERA_FACING_FRONT.ordinal()) {
+            mProcessTypes.add(ProcessType.FLIPPED_HORIZONTAL);
+        }
+    }
+
+    /**
+     * ———————————————————————————————— 特效视图相关 ————————————————————————————————————
+     */
+
+    /**
+     * 展示指定的 fragemnt
+     *
+     * @param tag effect 代表特效面板，sticker 代表贴纸面板
+     */
+    private void showPanel(String tag) {
+        if (showingFragment() != null) {
+            getSupportFragmentManager().beginTransaction().hide(showingFragment()).commit();
+        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+
+        if (fragment == null) {
+            fragment = generateFragment(tag);
+            ft.add(R.id.fl_avstreaming_panel_container, fragment, tag).commit();
+        } else {
+            ft.show(fragment).commit();
+        }
+        showOrHideBottomLayout(false);
+    }
+
+    /**
+     * 将底部视图隐藏或者显示
+     *
+     * @param show 是否显示
+     */
+    private void showOrHideBottomLayout(boolean show) {
+        if (show) {
+            mRlBottomLayout.setVisibility(View.VISIBLE);
+            mSeekBarBeauty.setVisibility(View.VISIBLE);
+        } else {
+            mRlBottomLayout.setVisibility(View.GONE);
+            mSeekBarBeauty.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 根据 tag 创建指定的 fragment
+     *
+     * @param tag effect 代表特效面板，sticker 代表贴纸面板
+     * @return 创建好的 fragment
+     */
+    private Fragment generateFragment(String tag) {
+        switch (tag) {
+            case TAG_EFFECT:
+                if (mEffectFragment != null) {
+                    return mEffectFragment;
+                }
+
+                final EffectFragment effectFragment = new EffectFragment();
+                effectFragment.setCallback(new EffectFragment.IEffectCallback() {
+
+                    @Override
+                    public void updateComposeNodes(final String[] nodes) {
+                        mCameraPreviewFrameView.queueEvent(new Runnable() {
+                            @Override
+                            public void run() {
+                                mByteDancePlugin.setComposerNodes(nodes);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateComposeNodeIntensity(final String path, final String key, final float value) {
+                        mCameraPreviewFrameView.queueEvent(new Runnable() {
+                            @Override
+                            public void run() {
+                                mByteDancePlugin.updateComposerNode(path, key, value);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFilterSelected(final String fileName) {
+                        mCameraPreviewFrameView.queueEvent(new Runnable() {
+                            @Override
+                            public void run() {
+                                mByteDancePlugin.setFilter(fileName);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFilterValueChanged(final float value) {
+                        mCameraPreviewFrameView.queueEvent(new Runnable() {
+                            @Override
+                            public void run() {
+                                mByteDancePlugin.updateFilterIntensity(value);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void setEffectOn(final boolean isOn) {
+                        mCameraPreviewFrameView.queueEvent(new Runnable() {
+                            @Override
+                            public void run() {
+                                mByteDancePlugin.setEffectOn(isOn);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onDefaultClick() {
+
+                    }
+                });
+                mEffectFragment = effectFragment;
+                return effectFragment;
+            case TAG_STICKER:
+                if (mStickerFragment != null) {
+                    return mStickerFragment;
+                }
+                StickerFragment stickerFragment = new StickerFragment();
+                stickerFragment.setCallback(new StickerFragment.IStickerCallback() {
+                    @Override
+                    public void onStickerSelected(final String fileName) {
+                        mCameraPreviewFrameView.queueEvent(new Runnable() {
+                            @Override
+                            public void run() {
+                                mByteDancePlugin.setSticker(fileName);
+                            }
+                        });
+                    }
+                });
+                mStickerFragment = stickerFragment;
+                return stickerFragment;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * 取得正在显示的 fragment
+     *
+     * @return 正在显示的 fragment
+     */
+    private Fragment showingFragment() {
+        if (mEffectFragment != null && !mEffectFragment.isHidden()) {
+            return mEffectFragment;
+        } else if (mStickerFragment != null && !mStickerFragment.isHidden()) {
+            return mStickerFragment;
+        }
+        return null;
+    }
+
+    /**
+     * 关闭正在显示的面板
+     *
+     * @return 是否成功关闭
+     */
+    private boolean closeFragment() {
+        Fragment showingFragment = showingFragment();
+        if (showingFragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out);
+            ft.hide(showingFragment).commit();
+        }
+        showOrHideBottomLayout(true);
+        return showingFragment != null;
     }
 }
