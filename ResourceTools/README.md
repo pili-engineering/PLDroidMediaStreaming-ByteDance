@@ -21,8 +21,9 @@
 | **Python3.x** |  python ResourceTool.py Android | python ResourceTool.py iOS |
 | **Python2.x** |  python ResourceTool2.py Android | python ResourceTool2.py iOS |
 
-## 3. 修改脚本（可选）
-如果您需要对某类特效的初始强度值进行指定，请编辑脚本文件中的初始强度变量，这部分代码在脚本文件的头部。可忽略此步骤，默认所有特效的初始强度值为 0.5。
+## 3. 修改特效初始强度（可选）
+特效初始强度为 0.5，如果您不需要更改该默认值，则可忽略此步骤  
+如果您希望修改特效初始强度，请编辑脚本文件中的初始强度变量，这部分代码在脚本文件的头部，具体可参考下方示例代码：
 
 ```python
 # 下面的变量分别对应美颜、美型、美体、美妆、滤镜特效的初始强度
