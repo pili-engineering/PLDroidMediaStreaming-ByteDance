@@ -58,4 +58,4 @@ Python 2.7.9+ 或 Python 3.4+ 以上版本都自带 pip 工具,如果您没有�
 建议使用电脑上默认 Python 版本来运行脚本，原因为运行脚本会为您安装 pypinyin 库到默认 Python 版本中，如果使用非默认 Python 版本运行可能会出现找不到 pypinyin 库的情况，可自行指定 Python 版本安装 pypinyin 库解决此问题。
 
 ### 4.5 异常情况
-如果出现找不到图标或者某些资源识别不了的情况请按照提示自行修改，可参见我们的 [resource](../PLDroidShortVideoDemo/app/src/main/assets/resource) 文件夹，如果脚本处理失败也可其进行测试验证，判断是否为脚本问题。
+如果出现找不到图标或者某些资源识别不了的情况请按照提示自行修改，可参见我们的 [resource](../PLDroidShortVideoDemo/app/src/main/assets/resource) 文件夹，如果脚本处理失败也可使用其进行测试验证，判断是否为脚本问题。
