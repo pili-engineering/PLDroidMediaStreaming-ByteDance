@@ -14,12 +14,12 @@ filter_intensity = 0.5
 
 filter_file_name_dict = {'Filter_28_Po6': 'soft', 'Filter_16_13': '胶片', 'Filter_19_37': '红唇', 'Filter_33_L1': '海岛',
                          'Filter_44_S2': '红色复古', 'Filter_29_Po7': '夕阳', 'Filter_02_14': '奶油', 'Filter_45_S3': '旅途',
-                         'Filter_20_05': '橘蓝调', 'Filter_40_F3': '加州', 'Filter_35_L3': '浅夏', 'Filter_07_06': '马卡龙',
-                         'Filter_10_11': '浅暖', 'Filter_25_Po3': '初见', 'Filter_05_10': '洛丽塔', 'Filter_34_L2': '黑白',
+                         'Filter_20_05': '橘蓝调', 'Filter_40_F3': '加州', 'Filter_35_L3': '夜色', 'Filter_07_06': '马卡龙',
+                         'Filter_10_11': '浅暖', 'Filter_25_Po3': '初见', 'Filter_05_10': '洛丽塔', 'Filter_34_L2': '浅夏',
                          'Filter_38_F1': '自然2', 'Filter_27_Po5': '奶茶', 'Filter_43_S1': '美式胶片', 'Filter_26_Po4': '暗调',
                          'Filter_24_Po2': '恋爱超甜', 'Filter_12_08': '北海道', 'Filter_41_F4': '食色', 'Filter_01_38': '柔白',
-                         'Filter_42_F5': '川味', 'Filter_37_L5': '红棕', 'Filter_11_09': '物语', 'Filter_21_01': '褪色',
-                         'Filter_15_07': '静谧', 'Filter_22_16': '黑白', 'Filter_36_L4': '夜色', 'Filter_03_20': '氧气',
+                         'Filter_42_F5': '川味', 'Filter_37_L5': '清透', 'Filter_11_09': '物语', 'Filter_21_01': '褪色',
+                         'Filter_15_07': '静谧', 'Filter_22_16': '黑白', 'Filter_36_L4': '红棕', 'Filter_03_20': '氧气',
                          'Filter_17_04': '暖阳', 'Filter_13_02': '日杂', 'Filter_14_15': '西雅图', 'Filter_04_12': '桔梗',
                          'Filter_18_18': '旧日', 'Filter_32_Po10': '高级灰', 'Filter_39_F2': '苏打', 'Filter_08_17': '泡沫',
                          'Filter_46_S4': '暖黄', 'Filter_23_Po1': '温柔', 'Filter_09_19': '樱花', 'Filter_31_Po9': '海边人像',
@@ -38,8 +38,7 @@ makeup_file_name_dict = {'weixun': '微醺', 'richang': '日常', 'mitao': '蜜�
 
 makeup_file_key_dict = {'blush': 'Internal_Makeup_Blusher', 'eyebrow': 'Internal_Makeup_Brow',
                         'eyeshadow': 'Internal_Makeup_Eye', 'facial': 'Internal_Makeup_Facial', 'hair': '',
-                        'lip': 'Internal_Makeup_Lips',
-                        'pupil': 'Internal_Makeup_Pupil'}
+                        'lip': 'Internal_Makeup_Lips', 'pupil': 'Internal_Makeup_Pupil'}
 
 key_name_dict = {'smooth': '磨皮', 'whiten': '美白', 'sharp': '锐化', 'BEF_BEAUTY_BRIGHTEN_EYE': '亮眼',
                  'BEF_BEAUTY_WHITEN_TEETH': '白牙', 'BEF_BEAUTY_REMOVE_POUCH': '黑眼圈', 'BEF_BEAUTY_SMILES_FOLDS': '法令纹',
@@ -51,7 +50,11 @@ key_name_dict = {'smooth': '磨皮', 'whiten': '美白', 'sharp': '锐化', 'BEF
                  'Internal_Deform_MouthCorner': '微笑', 'Internal_Eye_Spacing': '眼距', 'Internal_Deform_Eye_Move': '眼移动',
                  'Internal_Deform_MovMouth': '缩人中', 'Internal_Makeup_Blusher': '腮红', 'Internal_Makeup_Brow': '眉毛',
                  'Internal_Makeup_Eye': '眼影', 'Internal_Makeup_Facial': '修容', '': '染发', 'Internal_Makeup_Lips': '口红',
-                 'Internal_Makeup_Pupil': '美瞳', 'BEF_BEAUTY_BODY_LONG_LEG': '长腿', 'BEF_BEAUTY_BODY_THIN': '瘦身'}
+                 'Internal_Makeup_Pupil': '美瞳', 'BEF_BEAUTY_BODY_LONG_LEG': '长腿', 'BEF_BEAUTY_BODY_THIN': '瘦身',
+                 'BEF_BEAUTY_BODY_SHRINK_HEAD': '小头', 'BEF_BEAUTY_BODY_SLIM_LEG': '瘦腿',
+                 'BEF_BEAUTY_BODY_SLIM_WAIST': '瘦腰', 'BEF_BEAUTY_BODY_ENLARGR_BREAST': '丰胸',
+                 'BEF_BEAUTY_BODY_ENHANCE_HIP': '美胯', 'BEF_BEAUTY_BODY_ENHANCE_NECK': '天鹅颈',
+                 'BEF_BEAUTY_BODY_SLIM_ARM': '瘦手臂'}
 
 key_icon_dict = {'Internal_Deform_Overall': 'cheek.png', 'Internal_Deform_CutFace': 'cut_face.png',
                  'Internal_Deform_Face': 'small_face.png', 'Internal_Deform_Eye': 'eye.png',
@@ -61,13 +64,17 @@ key_icon_dict = {'Internal_Deform_Overall': 'cheek.png', 'Internal_Deform_CutFac
                  'Internal_Deform_Forehead': 'forehead.png', 'Internal_Deform_ZoomMouth': 'mouth_zoom.png',
                  'Internal_Deform_MouthCorner': 'mouth_smile.png', 'Internal_Eye_Spacing': 'eye_rotate.png',
                  'Internal_Deform_Eye_Move': 'eye_rotate.png', 'Internal_Deform_MovMouth': 'mouth_zoom.png',
-                 'BEF_BEAUTY_BODY_LONG_LEG': 'long_leg.png', 'BEF_BEAUTY_BODY_THIN': 'thin.png', 'smooth': 'smooth.png',
-                 'whiten': 'whiten.png', 'sharp': 'sharpen.png', 'BEF_BEAUTY_BRIGHTEN_EYE': 'smooth.png',
-                 'BEF_BEAUTY_WHITEN_TEETH': 'smooth.png', 'BEF_BEAUTY_REMOVE_POUCH': 'sharpen.png',
-                 'BEF_BEAUTY_SMILES_FOLDS': 'sharpen.png', 'Internal_Makeup_Blusher': 'blush.png',
-                 'Internal_Makeup_Brow': 'eyebrow.png', 'Internal_Makeup_Eye': 'eyeshadow.png',
-                 'Internal_Makeup_Facial': 'facial.png', '': 'hair.png', 'Internal_Makeup_Lips': 'lip.png',
-                 'Internal_Makeup_Pupil': 'pupil.png'}
+                 'smooth': 'smooth.png', 'whiten': 'whiten.png', 'sharp': 'sharpen.png',
+                 'BEF_BEAUTY_BRIGHTEN_EYE': 'smooth.png', 'BEF_BEAUTY_WHITEN_TEETH': 'smooth.png',
+                 'BEF_BEAUTY_REMOVE_POUCH': 'sharpen.png', 'BEF_BEAUTY_SMILES_FOLDS': 'sharpen.png',
+                 'Internal_Makeup_Blusher': 'blush.png', 'Internal_Makeup_Brow': 'eyebrow.png',
+                 'Internal_Makeup_Eye': 'eyeshadow.png', 'Internal_Makeup_Facial': 'facial.png', '': 'hair.png',
+                 'Internal_Makeup_Lips': 'lip.png', 'Internal_Makeup_Pupil': 'pupil.png',
+                 'BEF_BEAUTY_BODY_LONG_LEG': 'long_leg.png', 'BEF_BEAUTY_BODY_THIN': 'thin.png',
+                 'BEF_BEAUTY_BODY_SHRINK_HEAD': 'shrink_head.png', 'BEF_BEAUTY_BODY_SLIM_LEG': 'slim_leg.png',
+                 'BEF_BEAUTY_BODY_SLIM_WAIST': 'thin.png', 'BEF_BEAUTY_BODY_ENLARGR_BREAST': 'enlarge_breast.png',
+                 'BEF_BEAUTY_BODY_ENHANCE_HIP': 'enhance_hip.png', 'BEF_BEAUTY_BODY_ENHANCE_NECK': 'enhance_neck.png',
+                 'BEF_BEAUTY_BODY_SLIM_ARM': 'slim_arm.png'}
 
 
 def show_error_log(msg):
@@ -147,9 +154,10 @@ def deal_filter():
                        'displayName': get_filter_name_by_file_name(file_name),
                        'defaultIntensity': filter_intensity}
         content.append(filter_dict)
-    json_file = open(filter_root_dir + '/config.json', 'w')
-    json_file.write(json.dumps(content, ensure_ascii=False, indent=4))
-    json_file.close()
+    if content:
+        json_file = open(filter_root_dir + '/config.json', 'w')
+        json_file.write(json.dumps(content, ensure_ascii=False, indent=4))
+        json_file.close()
     show_info_log('已完成滤镜资源文件的配置')
 
 
@@ -208,9 +216,10 @@ def deal_sticker():
         temp_dict = {'filePath': 'stickers/' + file_name, 'iconName': file_name + '.png',
                      'displayName': icon_name, 'tip': tip}
         content.append(temp_dict)
-    json_file = open(sticker_root_dir + '/config.json', 'w')
-    json_file.write(json.dumps(content, ensure_ascii=False, indent=4))
-    json_file.close()
+    if content:
+        json_file = open(sticker_root_dir + '/config.json', 'w')
+        json_file.write(json.dumps(content, ensure_ascii=False, indent=4))
+        json_file.close()
     show_info_log('已完成动态贴纸资源文件的配置')
 
 
@@ -226,9 +235,10 @@ def deal_compose_makeup():
     deal_reshape(compose_root_dir, content)
     deal_body(compose_root_dir, content)
     deal_makeup(compose_root_dir, content)
-    json_file = open(compose_root_dir + '/config.json', 'w')
-    json_file.write(json.dumps(content, ensure_ascii=False, indent=4))
-    json_file.close()
+    if content:
+        json_file = open(compose_root_dir + '/config.json', 'w')
+        json_file.write(json.dumps(content, ensure_ascii=False, indent=4))
+        json_file.close()
 
 
 def deal_beauty(compose_root_dir, content):
@@ -251,7 +261,8 @@ def deal_beauty(compose_root_dir, content):
                                'displayName': effect_name, 'key': key,
                                'defaultIntensity': beauty_intensity}
                 beauty.append(beauty_dict)
-    content['beauty'] = beauty
+    if beauty:
+        content['beauty'] = beauty
     show_info_log('已完成美颜资源文件的配置')
 
 
@@ -275,32 +286,34 @@ def deal_reshape(compose_root_dir, content):
                                 'displayName': effect_name, 'key': key,
                                 'defaultIntensity': reshape_intensity}
                 reshape.append(reshape_dict)
-    content['reshape'] = reshape
+    if reshape:
+        content['reshape'] = reshape
     show_info_log('已完成微整形资源文件的配置')
 
 
 def deal_body(compose_root_dir, content):
     compose_dir = compose_root_dir + '/ComposeMakeup'
     compose_icon_dir = compose_root_dir + '/icons'
-    allslimqy_path = compose_dir + '/body/allslimqy'
-    config_path = allslimqy_path + '/.config_file'
     body = []
-    if not os.path.exists(config_path):
-        return
     show_verbose_log('开始配置美体资源文件。。。。。。')
-    with open(config_path) as file:
-        json_keys = json.load(file)
-    for key in json_keys:
-        icon_name = get_icon_name_by_key(key)
-        effect_name = get_composer_effect_name_by_key(key)
-        icon_src_path = './images/body/' + icon_name
-        icon_dst_path = compose_icon_dir + '/' + icon_name
-        shutil.copyfile(icon_src_path, icon_dst_path)
-        body_dict = {'filePath': 'ComposeMakeup/body/allslimqy', 'iconName': icon_name,
-                     'displayName': effect_name, 'key': key,
-                     'defaultIntensity': body_intensity}
-        body.append(body_dict)
-    content['body'] = body
+    for dir_name in ('allslimqy', 'allslim'):
+        file_path = compose_dir + '/body/' + dir_name
+        config_path = file_path + '/.config_file'
+        if not os.path.exists(config_path):
+            continue
+        with open(config_path) as file:
+            json_keys = json.load(file)
+        for key in json_keys:
+            icon_name = get_icon_name_by_key(key)
+            effect_name = get_composer_effect_name_by_key(key)
+            icon_src_path = './images/body/' + icon_name
+            icon_dst_path = compose_icon_dir + '/' + icon_name
+            shutil.copyfile(icon_src_path, icon_dst_path)
+            body_dict = {'filePath': 'ComposeMakeup/body/' + dir_name, 'iconName': icon_name,
+                         'displayName': effect_name, 'key': key, 'defaultIntensity': body_intensity}
+            body.append(body_dict)
+    if body:
+        content['body'] = body
     show_info_log('已完成美体资源文件的配置')
 
 
@@ -335,7 +348,8 @@ def deal_makeup(compose_root_dir, content):
             effect.append(effect_dict)
         effect_type['effects'] = effect
         makeup[makeup_file_name] = effect_type
-    content['makeup'] = makeup
+    if makeup:
+        content['makeup'] = makeup
     show_info_log('已完成美妆资源文件的配置')
 
 
@@ -350,7 +364,8 @@ if __name__ == '__main__':
     from pypinyin import lazy_pinyin
 
     reload(sys)
-    sys.setdefaultencoding("utf-8")
+    sys.setdefaultencoding('utf8')
+
     show_verbose_log('开始配置资源文件。。。。。。')
     deal_filter()
     deal_sticker()
